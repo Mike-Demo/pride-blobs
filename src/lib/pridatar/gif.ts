@@ -68,6 +68,7 @@ export async function encodeGif(
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   if (!ctx) throw new Error("Canvas is unavailable in this browser");
 
+  const { GIFEncoder, quantize, applyPalette } = await loadGifenc();
   const encoder = GIFEncoder();
   for (let i = 0; i < count; i += 1) {
     const frameOpts: PridatarOptions = { ...opts, size };
@@ -75,6 +76,7 @@ export async function encodeGif(
     const data = await drawFrame(pridatar(name, frameOpts), size, ctx);
     const palette = quantize(data.data, 256, { format: "rgba4444" });
     const index = applyPalette(data.data, palette, "rgba4444");
+
     encoder.writeFrame(index, size, size, { palette, delay, transparent: true });
   }
   encoder.finish();
