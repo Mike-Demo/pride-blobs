@@ -100,7 +100,7 @@ export function resolvePridatar(name: string, opts: PridatarOptions = {}): Resol
   return {
     flag,
     stripes: mode,
-    colors: prideColors({ flag, mode, pick: t("pride.stripe") }),
+    colors: prideColors({ flag, mode, pick: t("pride.stripe"), solid: solidFill(opts) }),
     shape: style.layout(t).shape,
   };
 }
