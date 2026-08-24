@@ -70,6 +70,20 @@ const CHARACTER: Record<string, Character> = {
 const characterOf = (expression?: string): Character =>
   (expression && CHARACTER[expression]) || CALM;
 
+/** Timing for one preset once the expression's character is applied. */
+function resolveTiming(preset: Exclude<MotionPreset, "off">, expression?: string) {
+  const base = TIMING[preset];
+  const c = characterOf(expression);
+  return {
+    breathe: base.breathe * c.breathe,
+    swell: 1 + (base.swell - 1) * c.swell,
+    bob: base.bob * c.bob,
+    rise: base.rise * c.rise,
+    blink: base.blink * (c.blink || 1),
+    blinks: c.blink !== 0,
+  };
+}
+
 /**
  * A scoped `<style>` block for one render, or `""` when motion is off.
  *
@@ -80,15 +94,8 @@ const characterOf = (expression?: string): Character =>
  */
 export function motionStyle(uid: string, preset: MotionPreset, expression?: string): string {
   if (preset === "off") return "";
-  const base = TIMING[preset];
-  const c = characterOf(expression);
-  const t: Timing = {
-    breathe: base.breathe * c.breathe,
-    swell: 1 + (base.swell - 1) * c.swell,
-    bob: base.bob * c.bob,
-    rise: base.rise * c.rise,
-    blink: base.blink * (c.blink || 1),
-  };
+
+  const t = resolveTiming(preset, expression);
   const root = `#pa-${uid}`;
   const kf = (name: string) => `pa-${name}-${uid}`;
 
@@ -101,12 +108,73 @@ export function motionStyle(uid: string, preset: MotionPreset, expression?: stri
     `animation:${kf("breathe")} ${t.breathe.toFixed(2)}s ease-in-out infinite}` +
     `${root} .mo-bob{transform-box:view-box;` +
     `animation:${kf("bob")} ${t.bob.toFixed(2)}s ease-in-out infinite}` +
-    (c.blink === 0
-      ? ""
-      : `${root} .mo-eye{transform-box:view-box;` +
+    (t.blinks
+      ? `${root} .mo-eye{transform-box:view-box;` +
         `animation:${kf("blink")} ${t.blink.toFixed(2)}s ease-in-out infinite;` +
-        `animation-delay:calc(var(--mo-wrap) * 0.04s)}`) +
+        `animation-delay:calc(var(--mo-wrap) * 0.04s)}`
+      : "") +
     `}</style>`
   );
 }
+
+/**
+ * Loop length in seconds for a frame-by-frame export.
+ *
+ * The breathe cycle is the master clock; the other cycles are quantised to
+ * whole multiples or divisions of it so the exported GIF loops seamlessly.
+ */
+export function motionLoop(preset: MotionPreset, expression?: string): number {
+  if (preset === "off") return 0;
+  return resolveTiming(preset, expression).breathe;
+}
+
+/** Eased 0→1→0 travel, matching the `ease-in-out` keyframes closely enough. */
+const wave = (u: number) => 0.5 - 0.5 * Math.cos(2 * Math.PI * u);
+
+/** Blink scaleY at progress `u` through one blink cycle. */
+function lid(u: number): number {
+  if (u < 0.92) return 1;
+  if (u < 0.96) return 1 - 0.9 * ((u - 0.92) / 0.04);
+  return 0.1 + 0.9 * ((u - 0.96) / 0.04);
+}
+
+/**
+ * A frozen `<style>` block for a single frame at `phase` (0–1 of the loop).
+ *
+ * Same selectors as `motionStyle`, but with the animation resolved to static
+ * transforms — canvas rasterisation never runs CSS animations, so the frames
+ * of a GIF export have to be posed one at a time.
+ */
+export function motionFrameStyle(
+  uid: string,
+  preset: MotionPreset,
+  phase: number,
+  expression?: string,
+): string {
+  if (preset === "off") return "";
+  const t = resolveTiming(preset, expression);
+  const loop = t.breathe;
+  const time = phase * loop;
+  const root = `#pa-${uid}`;
+
+  // Quantise so every cycle closes exactly at the end of the loop.
+  const bob = loop / Math.max(1, Math.round(loop / t.bob));
+  const blink = loop * Math.max(1, Math.round(t.blink / loop));
+
+  const scale = 1 + (t.swell - 1) * wave(time / loop);
+  const rise = t.rise * wave((time % bob) / bob);
+  const lids = t.blinks ? lid((time % blink) / blink) : 1;
+
+  return (
+    `<style>` +
+    `${root} .mo-breathe{transform-origin:50px 62px;transform-box:view-box;` +
+    `transform:scale(${scale.toFixed(4)})}` +
+    `${root} .mo-bob{transform-box:view-box;transform:translateY(${(-rise).toFixed(3)}px)}` +
+    (t.blinks
+      ? `${root} .mo-eye{transform-box:view-box;transform:scaleY(${lids.toFixed(3)})}`
+      : "") +
+    `</style>`
+  );
+}
+
 
