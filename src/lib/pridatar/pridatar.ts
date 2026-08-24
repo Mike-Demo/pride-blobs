@@ -140,7 +140,9 @@ export function pridatar(name: string, opts: PridatarOptions = {}): string {
     },
     motion !== "off",
   );
-  const anim = motionStyle(uid, motion);
+  const face = !opts.expression || opts.expression === "auto" ? undefined : opts.expression;
+  const anim = motionStyle(uid, motion, face);
+
 
   const dim = opts.size ? ` width="${opts.size}" height="${opts.size}"` : "";
   const label = opts.title ? `<title>${escape(opts.title)}</title>` : "";
