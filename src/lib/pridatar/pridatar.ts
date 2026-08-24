@@ -14,6 +14,7 @@ import { superellipse } from "./vendor/shape";
 import { traits, type TraitOverrides } from "./vendor/traits";
 import { style, shapePin, type ShapeId } from "./style";
 import { expressionPins, type ExpressionSelection } from "./expression";
+import { motionStyle, type MotionPreset } from "./motion";
 
 export type BackgroundShape = "square" | "circle" | "squircle";
 
@@ -30,6 +31,8 @@ export interface PridatarOptions {
   expression?: ExpressionSelection;
   /** Flat fill for whichever side the stripes do not cover. `"auto"` derives it. */
   solid?: string | "auto";
+  /** Idle animation, shipped as CSS inside the SVG. Default `"off"`. */
+  motion?: MotionPreset;
   /** Backdrop shape, or `false` for a transparent backdrop. Default `"squircle"`. */
   background?: false | BackgroundShape;
   /** Adds a `<title>` for screen readers. */
@@ -128,17 +131,25 @@ export function pridatar(name: string, opts: PridatarOptions = {}): string {
           colors.bgStripes.length ? `url(#${bgId})` : colors.bg
         }"/>`;
 
-  const figure = style.render(layout, {
-    head: colors.bodyStripes.length ? `url(#${bodyId})` : colors.head,
-    eye: colors.eye,
-  });
+  const motion: MotionPreset = opts.motion ?? "off";
+  const figure = style.render(
+    layout,
+    {
+      head: colors.bodyStripes.length ? `url(#${bodyId})` : colors.head,
+      eye: colors.eye,
+    },
+    motion !== "off",
+  );
+  const anim = motionStyle(uid, motion);
 
   const dim = opts.size ? ` width="${opts.size}" height="${opts.size}"` : "";
   const label = opts.title ? `<title>${escape(opts.title)}</title>` : "";
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"${dim} role="img">${label}${
-    defs ? `<defs>${defs}</defs>` : ""
-  }${plate}${figure}</svg>`;
+  const id = anim ? ` id="pa-${uid}"` : "";
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"${dim}${id} role="img">${label}${
+    anim
+  }${defs ? `<defs>${defs}</defs>` : ""}${plate}${figure}</svg>`;
 }
 
 /** The same markup as a `data:` URI, for `<img src>` and CSS `url()`. */

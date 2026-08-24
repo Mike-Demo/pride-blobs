@@ -3,6 +3,7 @@ import type { StripeMode } from "./palette";
 import type { BackgroundShape } from "./pridatar";
 import { SHAPE_IDS } from "./style";
 import { EXPRESSION_IDS, type ExpressionSelection } from "./expression";
+import { isMotionPreset, type MotionPreset } from "./motion";
 
 export type FlagSelectionValue = FlagId | "auto";
 export type BackdropValue = BackgroundShape | "none";
@@ -17,6 +18,7 @@ export interface PridatarSearch {
   stripes: StripeMode;
   shape: ShapeSelectionValue;
   expression: ExpressionValue;
+  motion: MotionPreset;
   solid: SolidValue;
   backdrop: BackdropValue;
   size: number;
@@ -28,6 +30,7 @@ export const DEFAULT_SEARCH: PridatarSearch = {
   stripes: "background",
   shape: "auto",
   expression: "auto",
+  motion: "off",
   solid: "auto",
   backdrop: "squircle",
   size: 160,
@@ -66,6 +69,9 @@ export function parsePridatarSearch(raw: Record<string, unknown>): PridatarSearc
     (EXPRESSION_IDS as readonly string[]).includes(expression)
   ) {
     out.expression = expression as ExpressionValue;
+  }
+  if (isMotionPreset(raw["motion"]) && raw["motion"] !== DEFAULT_SEARCH.motion) {
+    out.motion = raw["motion"];
   }
   const solid = raw["solid"];
   if (typeof solid === "string" && /^#[0-9a-fA-F]{6}$/.test(solid)) out.solid = solid.toLowerCase();
