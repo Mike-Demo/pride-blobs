@@ -26,15 +26,16 @@ export interface PridatarSearch {
 
 export const DEFAULT_SEARCH: PridatarSearch = {
   seed: "ada@example.com",
-  flag: "auto",
+  flag: "rainbow",
   stripes: "background",
-  shape: "auto",
-  expression: "auto",
+  shape: "flag",
+  expression: "neutral",
   motion: "off",
-  solid: "auto",
+  solid: "#0d0d0d",
   backdrop: "squircle",
   size: 160,
 };
+
 
 const STRIPE_MODES: readonly StripeMode[] = ["background", "body", "both"];
 const BACKDROPS: readonly BackdropValue[] = ["squircle", "circle", "square", "none"];
