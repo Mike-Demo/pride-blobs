@@ -123,7 +123,17 @@ function Index() {
             </div>
 
             <div className="flex flex-col items-center gap-4 rounded-3xl border border-border bg-card p-8">
-              <Pridatar name={seed} flag={resolved.flag} stripes="both" size={220} />
+              <Pridatar
+                name={seed}
+                flag={resolved.flag}
+                stripes={resolved.stripes}
+                shape={resolved.shape}
+                expression={resolved.expression}
+                solid={resolved.solid}
+                background={resolved.backdrop === "none" ? false : resolved.backdrop}
+                size={220}
+              />
+
               <p className="text-center text-sm text-muted-foreground">{seed}</p>
             </div>
           </div>
