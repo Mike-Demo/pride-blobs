@@ -53,7 +53,7 @@ export function ShapePicker({ value, onChange, seed, flag, stripes }: ShapePicke
             onClick={() => onChange(id)}
             aria-pressed={selected}
             className={cn(
-              "flex min-h-11 items-center gap-2 rounded-lg border px-2 py-2 text-left text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              "flex min-h-11 min-w-0 items-center gap-2 rounded-lg border px-2 py-2 text-left text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               selected
                 ? "border-primary bg-primary/10 text-foreground"
                 : "border-border bg-card text-muted-foreground hover:text-foreground",

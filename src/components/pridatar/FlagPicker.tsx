@@ -29,7 +29,7 @@ export function FlagPicker({ value, onChange }: FlagPickerProps) {
         onClick={() => onChange("auto")}
         aria-pressed={value === "auto"}
         className={cn(
-          "flex min-h-11 items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "flex min-h-11 min-w-0 items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           value === "auto"
             ? "border-primary bg-primary/10 text-foreground"
             : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground",
@@ -53,7 +53,7 @@ export function FlagPicker({ value, onChange }: FlagPickerProps) {
           onClick={() => onChange(flag.id)}
           aria-pressed={value === flag.id}
           className={cn(
-            "flex min-h-11 items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            "flex min-h-11 min-w-0 items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
             value === flag.id
               ? "border-primary bg-primary/10 text-foreground"
               : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground",

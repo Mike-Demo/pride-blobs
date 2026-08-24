@@ -17,7 +17,7 @@ const REACT = `import { Pridatar } from "@/components/pridatar/Pridatar";
 
 function Block({ title, code }: { title: string; code: string }) {
   return (
-    <div>
+    <div className="min-w-0">
       <h3 className="mb-2 text-sm font-semibold text-foreground">{title}</h3>
       <pre className="overflow-x-auto rounded-xl border border-border bg-card p-4 text-xs leading-relaxed text-muted-foreground">
         <code>{code}</code>
@@ -37,7 +37,7 @@ export function Docs() {
 
       <div>
         <h3 className="mb-4 text-sm font-semibold text-foreground">Flags</h3>
-        <div className="overflow-hidden rounded-xl border border-border">
+        <div className="overflow-x-auto rounded-xl border border-border">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr className="bg-card text-xs uppercase tracking-widest text-muted-foreground">
