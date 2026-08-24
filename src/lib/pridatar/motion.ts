@@ -54,7 +54,7 @@ export function motionStyle(uid: string, preset: MotionPreset): string {
     `animation:${kf("breathe")} ${t.breathe}s ease-in-out infinite}` +
     `${root} .mo-bob{transform-box:view-box;` +
     `animation:${kf("bob")} ${t.bob}s ease-in-out infinite}` +
-    `${root} .mo-eye{transform-box:fill-box;transform-origin:center;` +
+    `${root} .mo-eye{transform-box:view-box;` +
     `animation:${kf("blink")} ${t.blink}s ease-in-out infinite;` +
     `animation-delay:calc(var(--mo-wrap) * 0.04s)}` +
     `}</style>`
