@@ -48,7 +48,8 @@ const reactSnippet = ({ seed, options, size }: SnippetInput): string =>
 export function buildSnippets(input: SnippetInput): Snippets {
   const { seed, options, size } = input;
   const svg = pridatar(seed, { ...options, size, title: seed });
-  const uri = pridatarDataUri(seed, { ...options, size: undefined, title: seed });
+  const { size: _omitSize, ...unsized } = options;
+  const uri = pridatarDataUri(seed, { ...unsized, title: seed });
 
   const css = [
     `/* Background image — no markup needed beyond one element. */`,
