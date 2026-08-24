@@ -70,14 +70,6 @@ const CHARACTER: Record<string, Character> = {
 const characterOf = (expression?: string): Character =>
   (expression && CHARACTER[expression]) || CALM;
 
-/**
- * A scoped `<style>` block for one render, or `""` when motion is off.
- *
- * Wrapped in `prefers-reduced-motion: no-preference`, so the static figure is
- * what anyone who asked for less motion sees — the markup is identical either
- * way, only the animation is gated. The expression tunes the timing so the
- * movement reads as the same mood as the face.
- */
 /** Timing for one preset once the expression's character is applied. */
 function resolveTiming(preset: Exclude<MotionPreset, "off">, expression?: string) {
   const base = TIMING[preset];
@@ -92,8 +84,17 @@ function resolveTiming(preset: Exclude<MotionPreset, "off">, expression?: string
   };
 }
 
+/**
+ * A scoped `<style>` block for one render, or `""` when motion is off.
+ *
+ * Wrapped in `prefers-reduced-motion: no-preference`, so the static figure is
+ * what anyone who asked for less motion sees — the markup is identical either
+ * way, only the animation is gated. The expression tunes the timing so the
+ * movement reads as the same mood as the face.
+ */
 export function motionStyle(uid: string, preset: MotionPreset, expression?: string): string {
   if (preset === "off") return "";
+
   const t = resolveTiming(preset, expression);
   const root = `#pa-${uid}`;
   const kf = (name: string) => `pa-${name}-${uid}`;
