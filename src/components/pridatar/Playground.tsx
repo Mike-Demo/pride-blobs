@@ -10,7 +10,7 @@ import { Pridatar } from "./Pridatar";
 import { FlagPicker, type FlagSelection } from "./FlagPicker";
 import { ShapePicker, type ShapeSelection } from "./ShapePicker";
 import { ExpressionPicker } from "./ExpressionPicker";
-import type { ExpressionSelection } from "@/lib/pridatar";
+import type { ExpressionSelection, MotionPreset } from "@/lib/pridatar";
 import { pridatar, resolvePridatar, type StripeMode } from "@/lib/pridatar";
 import { copySvg, downloadPng, downloadSvg } from "@/lib/pridatar/export";
 import { cn } from "@/lib/utils";
@@ -29,6 +29,12 @@ const BACKDROPS: { id: BackdropValue; label: string }[] = [
 ];
 
 const SOLID_PRESETS = ["#ffffff", "#0e0e12", "#f4e9dd", "#1b3a5b", "#f2c14e", "#e5457f"];
+
+const MOTIONS: { id: MotionPreset; label: string }[] = [
+  { id: "off", label: "Off" },
+  { id: "idle", label: "Idle" },
+  { id: "bouncy", label: "Bouncy" },
+];
 
 const CROWD = ["ada", "kasper", "tove", "juno", "remy", "sasha", "wren", "ines"];
 
@@ -85,7 +91,7 @@ export function Playground() {
   const navigate = useNavigate({ from: "/" });
   const [status, setStatus] = useState<string | null>(null);
 
-  const { seed: name, flag, stripes, shape, expression, solid, backdrop, size } = current;
+  const { seed: name, flag, stripes, shape, expression, solid, motion, backdrop, size } = current;
 
   const update = (patch: Partial<PridatarSearch>) => {
     void navigate({
@@ -100,6 +106,7 @@ export function Playground() {
   const setShape = (value: ShapeSelection) => update({ shape: value });
   const setExpression = (value: ExpressionSelection) => update({ expression: value });
   const setSolid = (value: string) => update({ solid: value });
+  const setMotion = (value: MotionPreset) => update({ motion: value });
   const setBackdrop = (value: BackdropValue) => update({ backdrop: value });
   const setSize = (value: number) => update({ size: value });
 
@@ -111,9 +118,10 @@ export function Playground() {
       shape,
       expression,
       solid,
+      motion,
       background: backdrop === "none" ? (false as const) : backdrop,
     }),
-    [flag, stripes, shape, expression, solid, backdrop],
+    [flag, stripes, shape, expression, solid, motion, backdrop],
   );
 
   const resolved = useMemo(() => resolvePridatar(seed, options), [seed, options]);
@@ -129,6 +137,7 @@ export function Playground() {
     `  shape="${shape}"`,
     `  expression="${expression}"`,
     `  solid="${solid}"`,
+    `  motion="${motion}"`,
     `  background={${backdrop === "none" ? "false" : `"${backdrop}"`}}`,
     `  size={${size}}`,
     `/>`,
@@ -237,6 +246,14 @@ export function Playground() {
         <div className="grid gap-4 sm:grid-cols-2">
           <Segmented label="Stripes" options={STRIPE_MODES} value={stripes} onChange={setStripes} />
           <Segmented label="Backdrop" options={BACKDROPS} value={backdrop} onChange={setBackdrop} />
+        </div>
+
+        <div>
+          <Segmented label="Motion" options={MOTIONS} value={motion} onChange={setMotion} />
+          <p className="mt-2 text-xs text-muted-foreground">
+            The animation rides inside the SVG, so copied and downloaded SVGs move too. Anyone with
+            reduced motion turned on sees a still avatar.
+          </p>
         </div>
 
         <div>
