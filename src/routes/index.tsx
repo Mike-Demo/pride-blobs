@@ -1,5 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { parsePridatarSearch, toSearchParams } from "@/lib/pridatar/share";
+import {
+  parsePridatarSearch,
+  resolvePridatarSearch,
+  toSearchParams,
+} from "@/lib/pridatar/share";
 import { Pridatar } from "@/components/pridatar/Pridatar";
 import { Crowd } from "@/components/pridatar/Crowd";
 import { Playground } from "@/components/pridatar/Playground";
@@ -114,7 +118,7 @@ function Index() {
             </div>
 
             <div className="flex flex-col items-center gap-4 rounded-3xl border border-border bg-card p-8">
-              <Pridatar name={seed} stripes="both" size={220} />
+              <Pridatar name={seed} flag={resolved.flag} stripes="both" size={220} />
               <p className="text-center text-sm text-muted-foreground">{seed}</p>
             </div>
           </div>
