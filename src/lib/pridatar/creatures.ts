@@ -148,13 +148,13 @@ export const flagShape: Shape = {
   body: (t, b) => {
     b.cx += b.rx * 0.12;
     b.ry = b.rx * t.num("flag.ratio", 0.58, 0.7);
+    b.rot = t.num("flag.phase", 0, Math.PI * 2);
   },
   face: (b) => ({ cx: b.cx, cy: b.cy, rx: b.rx * 0.72, ry: b.ry * 0.6 }),
-  decorate: (t, b, out) => {
+  decorate: (_t, b, out) => {
     const poleX = b.cx - b.rx - b.rx * 0.1;
     out.extra.push(box(poleX, b.cy + b.ry * 0.15, b.rx * 0.06, b.ry * 1.5));
     out.petals.push({ cx: poleX, cy: b.cy - b.ry * 1.35, r: b.rx * 0.1 });
-    void t;
   },
   path: (b) => banner(b.cx, b.cy, b.rx, b.ry, b.ry * 0.16, b.rot),
 };
