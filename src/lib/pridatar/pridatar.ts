@@ -14,7 +14,7 @@ import { superellipse } from "./vendor/shape";
 import { traits, type TraitOverrides } from "./vendor/traits";
 import { style, shapePin, type ShapeId } from "./style";
 import { expressionPins, type ExpressionSelection } from "./expression";
-import { motionStyle, type MotionPreset } from "./motion";
+import { motionStyle, motionFrameStyle, type MotionPreset } from "./motion";
 
 export type BackgroundShape = "square" | "circle" | "squircle";
 
@@ -33,6 +33,12 @@ export interface PridatarOptions {
   solid?: string | "auto";
   /** Idle animation, shipped as CSS inside the SVG. Default `"off"`. */
   motion?: MotionPreset;
+  /**
+   * Freezes the animation at this phase of its loop (0–1) instead of animating.
+   * Used by frame-by-frame exports; canvas never runs CSS animations.
+   */
+  frame?: number;
+
   /** Backdrop shape, or `false` for a transparent backdrop. Default `"squircle"`. */
   background?: false | BackgroundShape;
   /** Adds a `<title>` for screen readers. */
