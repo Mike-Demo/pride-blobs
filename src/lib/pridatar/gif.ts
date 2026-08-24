@@ -45,7 +45,9 @@ export async function encodeGif(
   const fps = gif.fps ?? 20;
   const maxFrames = gif.maxFrames ?? 48;
 
-  const loop = motionLoop(opts.motion ?? "off");
+  const face = !opts.expression || opts.expression === "auto" ? undefined : opts.expression;
+  const loop = motionLoop(opts.motion ?? "off", face);
+
   // A still avatar still exports, as a one-frame GIF.
   const count = loop === 0 ? 1 : Math.max(2, Math.min(maxFrames, Math.round(loop * fps)));
   const delay = loop === 0 ? 1000 : Math.max(20, Math.round((loop * 1000) / count));
