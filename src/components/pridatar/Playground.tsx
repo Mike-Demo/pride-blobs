@@ -348,9 +348,7 @@ export function Playground() {
           {status}
         </p>
 
-        <pre className="overflow-x-auto rounded-xl border border-border bg-card p-4 text-xs leading-relaxed text-muted-foreground">
-          <code>{snippet}</code>
-        </pre>
+        <CodeTabs seed={seed} options={options} size={size} onAnnounce={announce} />
       </div>
     </div>
   );
