@@ -51,11 +51,14 @@ export function Docs() {
               {FLAGS.map((flag) => (
                 <tr key={flag.id} className="border-t border-border">
                   <td className="px-4 py-3">
-                    <Pridatar name={flag.id} flag={flag.id} stripes="both" size={36} />
+                    <Pridatar name={flag.id} flag={flag.id} stripes="both" size={36} title={`${flag.label} example`} />
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-foreground">"{flag.id}"</td>
                   <td className="px-4 py-3">
-                    <span className="flex h-4 w-24 overflow-hidden rounded-sm ring-1 ring-border">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-4 w-24 overflow-hidden rounded-sm ring-1 ring-border"
+                    >
                       {flag.stripes.map((color, i) => (
                         <span
                           key={`${color}-${i}`}

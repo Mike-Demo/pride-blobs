@@ -38,12 +38,20 @@ function Segmented<T extends string>({
   onChange: (v: T) => void;
   label: string;
 }) {
+  const labelId = `segmented-${label.toLowerCase().replace(/\s+/g, "-")}`;
   return (
     <div>
-      <p className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+      <p
+        id={labelId}
+        className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground"
+      >
         {label}
       </p>
-      <div className="flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1">
+      <div
+        role="group"
+        aria-labelledby={labelId}
+        className="flex flex-wrap gap-1 rounded-lg border border-border bg-card p-1"
+      >
         {options.map((o) => (
           <button
             key={o.id}
@@ -51,7 +59,7 @@ function Segmented<T extends string>({
             onClick={() => onChange(o.id)}
             aria-pressed={value === o.id}
             className={cn(
-              "flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+              "min-h-11 flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               value === o.id
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
@@ -181,7 +189,7 @@ export function Playground() {
 
         <div className="flex flex-wrap gap-3">
           {CROWD.map((n) => (
-            <Pridatar key={n} name={n} {...options} size={44} />
+            <Pridatar key={n} name={n} {...options} size={44} decorative />
           ))}
         </div>
 
@@ -194,7 +202,7 @@ export function Playground() {
                 .then(() => announce("Share link copied"))
                 .catch(() => announce("Could not copy link"));
             }}
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            className="min-h-11 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Copy share link
           </button>
@@ -203,7 +211,7 @@ export function Playground() {
             onClick={() => {
               void copySvg(svg).then(() => announce("SVG copied"));
             }}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="min-h-11 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Copy SVG
           </button>
@@ -213,7 +221,7 @@ export function Playground() {
               downloadSvg(svg, `pridatar-${resolved.flag.id}`);
               announce("SVG downloaded");
             }}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="min-h-11 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Download SVG
           </button>
@@ -224,7 +232,7 @@ export function Playground() {
                 announce("PNG downloaded"),
               );
             }}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="min-h-11 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Download PNG
           </button>
