@@ -21,11 +21,21 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  validateSearch: (raw: Record<string, unknown>) => parsePridatarSearch(raw),
   component: Index,
 });
 
 function Index() {
-  const [heroName, setHeroName] = useState("ada@example.com");
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/" });
+  const heroName = search.seed;
+  const setHeroName = (value: string) => {
+    void navigate({
+      search: toSearchParams({ ...search, seed: value }),
+      replace: true,
+      resetScroll: false,
+    });
+  };
   const seed = heroName.trim() || "pridatar";
 
   return (
