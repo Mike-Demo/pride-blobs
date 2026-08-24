@@ -48,15 +48,20 @@ export interface PaletteInput {
   readonly mode: StripeMode;
   /** 0–1 seeded position, used to keep flat fills from all landing on one stripe. */
   readonly pick: number;
+  /**
+   * Flat fill for whichever side the stripes do not cover: the body in
+   * `background` mode, the backdrop in `body` mode. Derived when omitted.
+   */
+  readonly solid?: string | undefined;
 }
 
-export function prideColors({ flag, mode, pick }: PaletteInput): PrideColors {
+export function prideColors({ flag, mode, pick, solid }: PaletteInput): PrideColors {
   const stripes = flag.stripes;
   const mean = average(stripes);
   const chosen = fromHex(stripes[Math.min(stripes.length - 1, Math.floor(pick * stripes.length))]!);
 
   if (mode === "background") {
-    const head = ensureContrast(polarity(mean), mean, 2.2);
+    const head = solid ? fromHex(solid) : ensureContrast(polarity(mean), mean, 2.2);
     const eye = ensureContrast(polarity(head), head, 4.5);
     return {
       bgStripes: stripes,
@@ -69,11 +74,12 @@ export function prideColors({ flag, mode, pick }: PaletteInput): PrideColors {
 
   const bodyMean = mean;
   const eye = ensureContrast(polarity(bodyMean), bodyMean, 4.5);
-  const backdrop = mode === "both" ? stripes.map((s) => toHex(pale(fromHex(s), 0.74))) : [];
+  const backdrop =
+    mode === "both" && !solid ? stripes.map((s) => toHex(pale(fromHex(s), 0.74))) : [];
 
   return {
     bgStripes: backdrop,
-    bg: toHex(pale(chosen, 0.9)),
+    bg: solid ?? toHex(pale(chosen, 0.9)),
     bodyStripes: stripes,
     head: toHex(ensureContrast(chosen, mean, 1)),
     eye: toHex(eye),
