@@ -15,6 +15,13 @@ const REACT = `import { Pridatar } from "@/components/pridatar/Pridatar";
 <Pridatar name={user.email} size={48} />
 <Pridatar name={user.email} flag="nonbinary" stripes="both" size={48} />`;
 
+const MOTION = `// idle breathing + bob + blink, off by default
+<Pridatar name={user.email} motion="idle" size={64} />
+<Pridatar name={user.email} motion="bouncy" size={64} />
+
+// same option on the string renderer
+pridatar(user.email, { motion: "idle" });`;
+
 function Block({ title, code }: { title: string; code: string }) {
   return (
     <div className="min-w-0">
@@ -75,6 +82,26 @@ export function Docs() {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-4 text-sm font-semibold text-foreground">Motion</h3>
+        <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+          <div className="min-w-0">
+            <pre className="overflow-x-auto rounded-xl border border-border bg-card p-4 text-xs leading-relaxed text-muted-foreground">
+              <code>{MOTION}</code>
+            </pre>
+            <p className="mt-2 text-xs text-muted-foreground">
+              The keyframes ship inside the SVG, so a copied or downloaded SVG animates on its own.
+              Everything is wrapped in a reduced-motion query, so anyone who asked for less motion
+              gets the still figure.
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <Pridatar name="ada@example.com" motion="idle" size={72} title="Idle motion example" />
+            <Pridatar name="wren" motion="bouncy" size={72} title="Bouncy motion example" />
+          </div>
         </div>
       </div>
 
