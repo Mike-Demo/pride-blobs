@@ -1,7 +1,14 @@
 import { useMemo, useState } from "react";
+import { getRouteApi, useNavigate } from "@tanstack/react-router";
+import {
+  resolvePridatarSearch,
+  toSearchParams,
+  type BackdropValue,
+  type PridatarSearch,
+} from "@/lib/pridatar/share";
 import { Pridatar } from "./Pridatar";
 import { FlagPicker, type FlagSelection } from "./FlagPicker";
-import { pridatar, resolvePridatar, type StripeMode, type BackgroundShape } from "@/lib/pridatar";
+import { pridatar, resolvePridatar, type StripeMode } from "@/lib/pridatar";
 import { copySvg, downloadPng, downloadSvg } from "@/lib/pridatar/export";
 import { cn } from "@/lib/utils";
 
@@ -11,7 +18,7 @@ const STRIPE_MODES: { id: StripeMode; label: string }[] = [
   { id: "both", label: "Both" },
 ];
 
-const BACKDROPS: { id: BackgroundShape | "none"; label: string }[] = [
+const BACKDROPS: { id: BackdropValue; label: string }[] = [
   { id: "squircle", label: "Squircle" },
   { id: "circle", label: "Circle" },
   { id: "square", label: "Square" },
@@ -58,13 +65,27 @@ function Segmented<T extends string>({
   );
 }
 
+const routeApi = getRouteApi("/");
+
 export function Playground() {
-  const [name, setName] = useState("ada@example.com");
-  const [flag, setFlag] = useState<FlagSelection>("auto");
-  const [stripes, setStripes] = useState<StripeMode>("background");
-  const [backdrop, setBackdrop] = useState<BackgroundShape | "none">("squircle");
-  const [size, setSize] = useState(160);
+  const current = resolvePridatarSearch(routeApi.useSearch());
+  const navigate = useNavigate({ from: "/" });
   const [status, setStatus] = useState<string | null>(null);
+
+  const { seed: name, flag, stripes, backdrop, size } = current;
+
+  const update = (patch: Partial<PridatarSearch>) => {
+    void navigate({
+      search: toSearchParams({ ...current, ...patch }),
+      replace: true,
+      resetScroll: false,
+    });
+  };
+  const setName = (value: string) => update({ seed: value });
+  const setFlag = (value: FlagSelection) => update({ flag: value });
+  const setStripes = (value: StripeMode) => update({ stripes: value });
+  const setBackdrop = (value: BackdropValue) => update({ backdrop: value });
+  const setSize = (value: number) => update({ size: value });
 
   const seed = name.trim() || "pridatar";
   const options = useMemo(
@@ -168,9 +189,21 @@ export function Playground() {
           <button
             type="button"
             onClick={() => {
-              void copySvg(svg).then(() => announce("SVG copied"));
+              void navigator.clipboard
+                .writeText(window.location.href)
+                .then(() => announce("Share link copied"))
+                .catch(() => announce("Could not copy link"));
             }}
             className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            Copy share link
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              void copySvg(svg).then(() => announce("SVG copied"));
+            }}
+            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             Copy SVG
           </button>

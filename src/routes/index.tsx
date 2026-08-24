@@ -1,5 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  parsePridatarSearch,
+  resolvePridatarSearch,
+  toSearchParams,
+} from "@/lib/pridatar/share";
 import { Pridatar } from "@/components/pridatar/Pridatar";
 import { Crowd } from "@/components/pridatar/Crowd";
 import { Playground } from "@/components/pridatar/Playground";
@@ -21,11 +25,21 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  validateSearch: (raw: Record<string, unknown>) => parsePridatarSearch(raw),
   component: Index,
 });
 
 function Index() {
-  const [heroName, setHeroName] = useState("ada@example.com");
+  const resolved = resolvePridatarSearch(Route.useSearch());
+  const navigate = useNavigate({ from: "/" });
+  const heroName = resolved.seed;
+  const setHeroName = (value: string) => {
+    void navigate({
+      search: toSearchParams({ ...resolved, seed: value }),
+      replace: true,
+      resetScroll: false,
+    });
+  };
   const seed = heroName.trim() || "pridatar";
 
   return (
@@ -104,7 +118,7 @@ function Index() {
             </div>
 
             <div className="flex flex-col items-center gap-4 rounded-3xl border border-border bg-card p-8">
-              <Pridatar name={seed} stripes="both" size={220} />
+              <Pridatar name={seed} flag={resolved.flag} stripes="both" size={220} />
               <p className="text-center text-sm text-muted-foreground">{seed}</p>
             </div>
           </div>
