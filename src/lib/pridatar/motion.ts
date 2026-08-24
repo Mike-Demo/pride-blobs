@@ -48,7 +48,7 @@ export function motionStyle(uid: string, preset: MotionPreset): string {
   return (
     `<style>@media (prefers-reduced-motion: no-preference){` +
     `@keyframes ${kf("breathe")}{0%,100%{transform:scale(1)}50%{transform:scale(${t.swell})}}` +
-    `@keyframes ${kf("bob")}{0%,100%{transform:translateY(0)}50%{transform:translateY(-${t.rise})}}` +
+    `@keyframes ${kf("bob")}{0%,100%{transform:translateY(0)}50%{transform:translateY(-${t.rise}px)}}` +
     `@keyframes ${kf("blink")}{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(0.1)}}` +
     `${root} .mo-breathe{transform-origin:50px 62px;transform-box:view-box;` +
     `animation:${kf("breathe")} ${t.breathe}s ease-in-out infinite}` +
