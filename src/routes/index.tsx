@@ -43,10 +43,16 @@ function Index() {
   const seed = heroName.trim() || "pridatar";
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+      >
+        Skip to content
+      </a>
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-6">
         <div className="flex items-center gap-3">
-          <Pridatar name="pridatar" flag="rainbow" stripes="both" size={32} />
+          <Pridatar name="pridatar" flag="rainbow" stripes="both" size={32} decorative />
           <span className="font-display text-lg font-semibold tracking-tight">Pridatar</span>
         </div>
         <nav className="flex items-center gap-5 text-sm text-muted-foreground">
@@ -67,7 +73,7 @@ function Index() {
         </nav>
       </header>
 
-      <main>
+      <main id="main">
         <section className="mx-auto max-w-6xl px-5 pb-20 pt-8 sm:pt-16">
           <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_320px]">
             <div>
@@ -165,7 +171,7 @@ function Index() {
 
       <footer className="border-t border-border py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-5 text-center text-sm text-muted-foreground">
-          <Pridatar name="pridatar" flag="progress" stripes="both" size={40} />
+          <Pridatar name="pridatar" flag="progress" stripes="both" size={40} decorative />
           <p>
             Pridatar — a pride-focused fork of{" "}
             <a
