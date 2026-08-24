@@ -5,6 +5,8 @@ export type { Flag, FlagId } from "./flags";
 export { prideColors } from "./palette";
 export type { PrideColors, StripeMode } from "./palette";
 export { SHAPE_IDS, shapePin } from "./style";
+export { EXPRESSION_IDS, expressionPins } from "./expression";
+export type { ExpressionId, ExpressionSelection } from "./expression";
 export type { ShapeId } from "./style";
 export { normalizeSeed } from "./vendor/hash";
 
