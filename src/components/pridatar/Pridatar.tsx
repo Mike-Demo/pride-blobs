@@ -16,10 +16,9 @@ export interface PridatarProps extends PridatarOptions {
 export function Pridatar({ name, className, decorative = false, ...options }: PridatarProps) {
   const svg = useMemo(
     () =>
-      pridatar(name, {
-        ...options,
-        title: decorative ? undefined : (options.title ?? name),
-      }),
+      decorative
+        ? pridatar(name, options)
+        : pridatar(name, { ...options, title: options.title ?? name }),
     [name, options, decorative],
   );
 
