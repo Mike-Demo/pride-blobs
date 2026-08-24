@@ -26,6 +26,10 @@ export interface PridatarOptions {
   stripes?: StripeMode;
   /** Pins the silhouette. `"auto"` derives one from the seed. Default `"auto"`. */
   shape?: ShapeId | "auto";
+  /** Pins the face. `"auto"` derives one from the seed. Default `"auto"`. */
+  expression?: ExpressionSelection;
+  /** Flat fill for whichever side the stripes do not cover. `"auto"` derives it. */
+  solid?: string | "auto";
   /** Backdrop shape, or `false` for a transparent backdrop. Default `"squircle"`. */
   background?: false | BackgroundShape;
   /** Adds a `<title>` for screen readers. */
