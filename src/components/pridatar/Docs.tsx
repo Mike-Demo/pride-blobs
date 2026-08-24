@@ -1,0 +1,100 @@
+import { FLAGS } from "@/lib/pridatar";
+import { Pridatar } from "./Pridatar";
+
+const INSTALL = `# this fork lives in the repo, not on npm (yet)
+src/lib/pridatar/   # generator
+src/components/pridatar/Pridatar.tsx`;
+
+const VANILLA = `import { pridatar, pridatarDataUri } from "@/lib/pridatar";
+
+const svg = pridatar(user.email, { size: 48 });
+const src = pridatarDataUri(user.email, { flag: "trans" });`;
+
+const REACT = `import { Pridatar } from "@/components/pridatar/Pridatar";
+
+<Pridatar name={user.email} size={48} />
+<Pridatar name={user.email} flag="nonbinary" stripes="both" size={48} />`;
+
+function Block({ title, code }: { title: string; code: string }) {
+  return (
+    <div>
+      <h3 className="mb-2 text-sm font-semibold text-foreground">{title}</h3>
+      <pre className="overflow-x-auto rounded-xl border border-border bg-card p-4 text-xs leading-relaxed text-muted-foreground">
+        <code>{code}</code>
+      </pre>
+    </div>
+  );
+}
+
+export function Docs() {
+  return (
+    <div className="space-y-12">
+      <div className="grid gap-6 md:grid-cols-3">
+        <Block title="Where it lives" code={INSTALL} />
+        <Block title="Anywhere" code={VANILLA} />
+        <Block title="React" code={REACT} />
+      </div>
+
+      <div>
+        <h3 className="mb-4 text-sm font-semibold text-foreground">Flags</h3>
+        <div className="overflow-hidden rounded-xl border border-border">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="bg-card text-xs uppercase tracking-widest text-muted-foreground">
+                <th className="px-4 py-3 font-medium">Preview</th>
+                <th className="px-4 py-3 font-medium">flag</th>
+                <th className="px-4 py-3 font-medium">Stripes</th>
+                <th className="hidden px-4 py-3 font-medium md:table-cell">Origin</th>
+              </tr>
+            </thead>
+            <tbody>
+              {FLAGS.map((flag) => (
+                <tr key={flag.id} className="border-t border-border">
+                  <td className="px-4 py-3">
+                    <Pridatar name={flag.id} flag={flag.id} stripes="both" size={36} />
+                  </td>
+                  <td className="px-4 py-3 font-mono text-xs text-foreground">"{flag.id}"</td>
+                  <td className="px-4 py-3">
+                    <span className="flex h-4 w-24 overflow-hidden rounded-sm ring-1 ring-border">
+                      {flag.stripes.map((color, i) => (
+                        <span
+                          key={`${color}-${i}`}
+                          className="flex-1"
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
+                    </span>
+                  </td>
+                  <td className="hidden px-4 py-3 text-muted-foreground md:table-cell">
+                    {flag.note}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">
+        <h3 className="mb-2 text-sm font-semibold text-foreground">License and attribution</h3>
+        <p>
+          Pridatar is a fork of{" "}
+          <a
+            href="https://github.com/Alain00/blobatar"
+            className="text-foreground underline underline-offset-4"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Alain00/blobatar
+          </a>{" "}
+          (MIT, Copyright &copy; 2026 Alain). The seed hashing, silhouette vocabulary, layout and
+          OKLCh color math are upstream and unmodified; the pride palettes and the striping renderer
+          are this fork&apos;s. Upstream license text ships at{" "}
+          <code className="font-mono text-xs text-foreground">src/lib/pridatar/vendor/LICENSE</code>,
+          with the full change list in{" "}
+          <code className="font-mono text-xs text-foreground">src/lib/pridatar/NOTICE.md</code>.
+        </p>
+      </div>
+    </div>
+  );
+}
