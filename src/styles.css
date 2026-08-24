@@ -153,3 +153,27 @@
     font-family: var(--font-display);
   }
 }
+
+@keyframes crowd-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.crowd-track {
+  animation: crowd-marquee 60s linear infinite;
+}
+
+.crowd-marquee:hover .crowd-track,
+.crowd-marquee:focus-within .crowd-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crowd-track {
+    animation: none;
+  }
+}
