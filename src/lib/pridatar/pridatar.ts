@@ -12,7 +12,7 @@ import { prideColors, type PrideColors, type StripeMode } from "./palette";
 import { seedState, stream } from "./vendor/hash";
 import { superellipse } from "./vendor/shape";
 import { traits, type TraitOverrides } from "./vendor/traits";
-import { style } from "./vendor/styles/blob";
+import { style, shapePin, type ShapeId } from "./style";
 
 export type BackgroundShape = "square" | "circle" | "squircle";
 
@@ -23,6 +23,8 @@ export interface PridatarOptions {
   flag?: FlagId | "auto";
   /** Where the stripes are painted. Default `"background"`. */
   stripes?: StripeMode;
+  /** Pins the silhouette. `"auto"` derives one from the seed. Default `"auto"`. */
+  shape?: ShapeId | "auto";
   /** Backdrop shape, or `false` for a transparent backdrop. Default `"squircle"`. */
   background?: false | BackgroundShape;
   /** Adds a `<title>` for screen readers. */
@@ -60,6 +62,13 @@ function gradient(id: string, stripes: readonly string[]): string {
   return `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="100">${stops}</linearGradient>`;
 }
 
+/** Merges an explicit silhouette choice into the trait overrides. */
+function shapeTraits(opts: PridatarOptions): TraitOverrides | undefined {
+  const pin = !opts.shape || opts.shape === "auto" ? undefined : shapePin(opts.shape);
+  if (pin === undefined) return opts.traits;
+  return { ...opts.traits, shape: pin };
+}
+
 /** Deterministic flag choice for `flag: "auto"`. */
 export const autoFlag = (name: string, normalize = true): FlagId =>
   FLAG_IDS[Math.floor(stream(seedState(name, normalize), "pride.flag") * FLAG_IDS.length)]!;
@@ -70,7 +79,7 @@ export function resolvePridatar(name: string, opts: PridatarOptions = {}): Resol
   const mode: StripeMode = opts.stripes ?? "background";
   const flagId = !opts.flag || opts.flag === "auto" ? autoFlag(name, normalize) : opts.flag;
   const flag = getFlag(flagId);
-  const t = traits(name, normalize, opts.traits);
+  const t = traits(name, normalize, shapeTraits(opts));
 
   return {
     flag,
@@ -84,7 +93,7 @@ export function resolvePridatar(name: string, opts: PridatarOptions = {}): Resol
 export function pridatar(name: string, opts: PridatarOptions = {}): string {
   const normalize = opts.normalize ?? true;
   const { flag, colors, stripes } = resolvePridatar(name, opts);
-  const t = traits(name, normalize, opts.traits);
+  const t = traits(name, normalize, shapeTraits(opts));
   const layout = style.layout(t);
 
   const uid = seedState(`${name}|${flag.id}|${stripes}`, normalize).toString(36);

@@ -8,6 +8,7 @@ import {
 } from "@/lib/pridatar/share";
 import { Pridatar } from "./Pridatar";
 import { FlagPicker, type FlagSelection } from "./FlagPicker";
+import { ShapePicker, type ShapeSelection } from "./ShapePicker";
 import { pridatar, resolvePridatar, type StripeMode } from "@/lib/pridatar";
 import { copySvg, downloadPng, downloadSvg } from "@/lib/pridatar/export";
 import { cn } from "@/lib/utils";
@@ -80,7 +81,7 @@ export function Playground() {
   const navigate = useNavigate({ from: "/" });
   const [status, setStatus] = useState<string | null>(null);
 
-  const { seed: name, flag, stripes, backdrop, size } = current;
+  const { seed: name, flag, stripes, shape, backdrop, size } = current;
 
   const update = (patch: Partial<PridatarSearch>) => {
     void navigate({
@@ -92,6 +93,7 @@ export function Playground() {
   const setName = (value: string) => update({ seed: value });
   const setFlag = (value: FlagSelection) => update({ flag: value });
   const setStripes = (value: StripeMode) => update({ stripes: value });
+  const setShape = (value: ShapeSelection) => update({ shape: value });
   const setBackdrop = (value: BackdropValue) => update({ backdrop: value });
   const setSize = (value: number) => update({ size: value });
 
@@ -100,9 +102,10 @@ export function Playground() {
     () => ({
       flag,
       stripes,
+      shape,
       background: backdrop === "none" ? (false as const) : backdrop,
     }),
-    [flag, stripes, backdrop],
+    [flag, stripes, shape, backdrop],
   );
 
   const resolved = useMemo(() => resolvePridatar(seed, options), [seed, options]);
@@ -115,6 +118,7 @@ export function Playground() {
     `  name={${JSON.stringify(seed)}}`,
     `  flag="${flag}"`,
     `  stripes="${stripes}"`,
+    `  shape="${shape}"`,
     `  background={${backdrop === "none" ? "false" : `"${backdrop}"`}}`,
     `  size={${size}}`,
     `/>`,
@@ -149,6 +153,13 @@ export function Playground() {
             Flag
           </p>
           <FlagPicker value={flag} onChange={setFlag} />
+        </div>
+
+        <div>
+          <p className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            Silhouette
+          </p>
+          <ShapePicker value={shape} onChange={setShape} seed={seed} flag={flag} stripes={stripes} />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
