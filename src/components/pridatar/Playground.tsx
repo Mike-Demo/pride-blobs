@@ -9,6 +9,8 @@ import {
 import { Pridatar } from "./Pridatar";
 import { FlagPicker, type FlagSelection } from "./FlagPicker";
 import { ShapePicker, type ShapeSelection } from "./ShapePicker";
+import { ExpressionPicker } from "./ExpressionPicker";
+import type { ExpressionSelection } from "@/lib/pridatar";
 import { pridatar, resolvePridatar, type StripeMode } from "@/lib/pridatar";
 import { copySvg, downloadPng, downloadSvg } from "@/lib/pridatar/export";
 import { cn } from "@/lib/utils";
@@ -25,6 +27,8 @@ const BACKDROPS: { id: BackdropValue; label: string }[] = [
   { id: "square", label: "Square" },
   { id: "none", label: "None" },
 ];
+
+const SOLID_PRESETS = ["#ffffff", "#0e0e12", "#f4e9dd", "#1b3a5b", "#f2c14e", "#e5457f"];
 
 const CROWD = ["ada", "kasper", "tove", "juno", "remy", "sasha", "wren", "ines"];
 
@@ -81,7 +85,7 @@ export function Playground() {
   const navigate = useNavigate({ from: "/" });
   const [status, setStatus] = useState<string | null>(null);
 
-  const { seed: name, flag, stripes, shape, backdrop, size } = current;
+  const { seed: name, flag, stripes, shape, expression, solid, backdrop, size } = current;
 
   const update = (patch: Partial<PridatarSearch>) => {
     void navigate({
@@ -94,6 +98,8 @@ export function Playground() {
   const setFlag = (value: FlagSelection) => update({ flag: value });
   const setStripes = (value: StripeMode) => update({ stripes: value });
   const setShape = (value: ShapeSelection) => update({ shape: value });
+  const setExpression = (value: ExpressionSelection) => update({ expression: value });
+  const setSolid = (value: string) => update({ solid: value });
   const setBackdrop = (value: BackdropValue) => update({ backdrop: value });
   const setSize = (value: number) => update({ size: value });
 
@@ -103,9 +109,11 @@ export function Playground() {
       flag,
       stripes,
       shape,
+      expression,
+      solid,
       background: backdrop === "none" ? (false as const) : backdrop,
     }),
-    [flag, stripes, shape, backdrop],
+    [flag, stripes, shape, expression, solid, backdrop],
   );
 
   const resolved = useMemo(() => resolvePridatar(seed, options), [seed, options]);
@@ -119,6 +127,8 @@ export function Playground() {
     `  flag="${flag}"`,
     `  stripes="${stripes}"`,
     `  shape="${shape}"`,
+    `  expression="${expression}"`,
+    `  solid="${solid}"`,
     `  background={${backdrop === "none" ? "false" : `"${backdrop}"`}}`,
     `  size={${size}}`,
     `/>`,
@@ -160,6 +170,68 @@ export function Playground() {
             Silhouette
           </p>
           <ShapePicker value={shape} onChange={setShape} seed={seed} flag={flag} stripes={stripes} />
+        </div>
+
+        <div>
+          <p className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            Expression
+          </p>
+          <ExpressionPicker
+            value={expression}
+            onChange={setExpression}
+            seed={seed}
+            flag={flag}
+            stripes={stripes}
+            shape={shape}
+          />
+        </div>
+
+        <div>
+          <p className="mb-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            {stripes === "background" ? "Solid body color" : "Solid backdrop color"}
+          </p>
+          <div role="group" aria-label="Solid color" className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setSolid("auto")}
+              aria-pressed={solid === "auto"}
+              className={cn(
+                "min-h-11 rounded-lg border px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                solid === "auto"
+                  ? "border-primary bg-primary/10 text-foreground"
+                  : "border-border bg-card text-muted-foreground hover:text-foreground",
+              )}
+            >
+              Auto{solid === "auto" ? " ✓" : ""}
+            </button>
+            {SOLID_PRESETS.map((hex) => (
+              <button
+                key={hex}
+                type="button"
+                onClick={() => setSolid(hex)}
+                aria-pressed={solid === hex}
+                aria-label={`Solid color ${hex}`}
+                className={cn(
+                  "size-11 rounded-lg border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  solid === hex ? "border-primary ring-2 ring-primary" : "border-border",
+                )}
+                style={{ backgroundColor: hex }}
+              />
+            ))}
+            <label className="flex min-h-11 items-center gap-2 rounded-lg border border-border bg-card px-3 text-sm text-muted-foreground">
+              Custom
+              <input
+                type="color"
+                value={solid === "auto" ? "#ffffff" : solid}
+                onChange={(e) => setSolid(e.target.value)}
+                className="h-7 w-9 cursor-pointer rounded border-0 bg-transparent p-0"
+                aria-label="Custom solid color"
+              />
+            </label>
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            The flag stripes stay on the {stripes === "background" ? "backdrop" : "body"}.
+          </p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
