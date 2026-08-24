@@ -6,7 +6,7 @@
  * a GIF. The loop length comes from the motion preset and expression, which
  * keeps the exported file in step with what the playground shows.
  */
-import { GIFEncoder, quantize, applyPalette } from "gifenc";
+import type * as Gifenc from "gifenc";
 import { pridatar, type PridatarOptions } from "./pridatar";
 import { motionLoop } from "./motion";
 
@@ -18,6 +18,16 @@ export interface GifOptions {
   /** Hard cap on frame count, to keep files small. Default 48. */
   maxFrames?: number;
 }
+
+/**
+ * `gifenc` is CommonJS and browser-only, so it is loaded on demand at call time:
+ * a static named import breaks SSR module analysis.
+ */
+const loadGifenc = async (): Promise<typeof Gifenc> => {
+  const mod = (await import("gifenc")) as typeof Gifenc & { default?: typeof Gifenc };
+  return mod.default ?? mod;
+};
+
 
 const drawFrame = async (
   svg: string,
@@ -58,6 +68,7 @@ export async function encodeGif(
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   if (!ctx) throw new Error("Canvas is unavailable in this browser");
 
+  const { GIFEncoder, quantize, applyPalette } = await loadGifenc();
   const encoder = GIFEncoder();
   for (let i = 0; i < count; i += 1) {
     const frameOpts: PridatarOptions = { ...opts, size };
@@ -65,6 +76,7 @@ export async function encodeGif(
     const data = await drawFrame(pridatar(name, frameOpts), size, ctx);
     const palette = quantize(data.data, 256, { format: "rgba4444" });
     const index = applyPalette(data.data, palette, "rgba4444");
+
     encoder.writeFrame(index, size, size, { palette, delay, transparent: true });
   }
   encoder.finish();
