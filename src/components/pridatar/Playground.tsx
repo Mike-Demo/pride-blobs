@@ -254,7 +254,7 @@ export function Playground() {
           <Segmented label="Motion" options={MOTIONS} value={motion} onChange={setMotion} />
           <p className="mt-2 text-xs text-muted-foreground">
             The animation rides inside the SVG, so copied and downloaded SVGs move too. Anyone with
-            reduced motion turned on sees a still avatar.
+            reduced motion turned on sees a still avatar. With motion on you can also export an animated GIF.
           </p>
         </div>
 
