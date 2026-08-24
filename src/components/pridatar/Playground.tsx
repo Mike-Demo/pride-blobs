@@ -7,6 +7,7 @@ import {
   type PridatarSearch,
 } from "@/lib/pridatar/share";
 import { Pridatar } from "./Pridatar";
+import { CodeTabs } from "./CodeTabs";
 import { FlagPicker, type FlagSelection } from "./FlagPicker";
 import { ShapePicker, type ShapeSelection } from "./ShapePicker";
 import { ExpressionPicker } from "./ExpressionPicker";
@@ -129,21 +130,6 @@ export function Playground() {
   const resolved = useMemo(() => resolvePridatar(seed, options), [seed, options]);
   const svg = useMemo(() => pridatar(seed, { ...options, size, title: seed }), [seed, options, size]);
 
-  const snippet = [
-    `import { Pridatar } from "@/components/pridatar/Pridatar";`,
-    ``,
-    `<Pridatar`,
-    `  name={${JSON.stringify(seed)}}`,
-    `  flag="${flag}"`,
-    `  stripes="${stripes}"`,
-    `  shape="${shape}"`,
-    `  expression="${expression}"`,
-    `  solid="${solid}"`,
-    `  motion="${motion}"`,
-    `  background={${backdrop === "none" ? "false" : `"${backdrop}"`}}`,
-    `  size={${size}}`,
-    `/>`,
-  ].join("\n");
 
   const announce = (message: string) => {
     setStatus(message);
@@ -363,9 +349,7 @@ export function Playground() {
           {status}
         </p>
 
-        <pre className="overflow-x-auto rounded-xl border border-border bg-card p-4 text-xs leading-relaxed text-muted-foreground">
-          <code>{snippet}</code>
-        </pre>
+        <CodeTabs seed={seed} options={options} size={size} onAnnounce={announce} />
       </div>
     </div>
   );
