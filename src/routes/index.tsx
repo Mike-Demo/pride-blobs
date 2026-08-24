@@ -156,17 +156,6 @@ function Index() {
           </div>
         </section>
 
-        <section id="docs" className="border-t border-border py-20">
-          <div className="mx-auto max-w-6xl scroll-mt-8 px-5">
-            <h2 className="font-display text-3xl font-semibold tracking-tight">Docs</h2>
-            <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-              One function, one component, fifteen flags.
-            </p>
-            <div className="mt-10">
-              <Docs />
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="border-t border-border py-10">
