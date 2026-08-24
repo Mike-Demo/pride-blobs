@@ -2,6 +2,8 @@
  * Browser-side export helpers. Kept out of components so the UI only wires
  * events to them.
  */
+import { encodeGif } from "./gif";
+import type { PridatarOptions } from "./pridatar";
 
 /**
  * Triggers a file save. The anchor is attached to the document because a
@@ -58,4 +60,15 @@ const rasterize = async (svg: string, size: number): Promise<Blob> => {
 export async function downloadPng(svg: string, filename: string, size = 512): Promise<void> {
   const blob = await rasterize(svg, size);
   saveBlob(blob, `${filename}.png`);
+}
+
+/** Encodes the motion loop as an animated GIF and saves it. */
+export async function downloadGif(
+  name: string,
+  opts: PridatarOptions,
+  filename: string,
+  size = 256,
+): Promise<void> {
+  const blob = await encodeGif(name, opts, { size });
+  saveBlob(blob, `${filename}.gif`);
 }
