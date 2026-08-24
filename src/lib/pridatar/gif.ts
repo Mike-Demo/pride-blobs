@@ -19,6 +19,16 @@ export interface GifOptions {
   maxFrames?: number;
 }
 
+/**
+ * `gifenc` is CommonJS and browser-only, so it is loaded on demand at call time:
+ * a static named import breaks SSR module analysis.
+ */
+const loadGifenc = async (): Promise<typeof Gifenc> => {
+  const mod = (await import("gifenc")) as typeof Gifenc & { default?: typeof Gifenc };
+  return mod.default ?? mod;
+};
+
+
 const drawFrame = async (
   svg: string,
   size: number,
