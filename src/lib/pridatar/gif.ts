@@ -6,7 +6,7 @@
  * a GIF. The loop length comes from the motion preset and expression, which
  * keeps the exported file in step with what the playground shows.
  */
-import { GIFEncoder, quantize, applyPalette } from "gifenc";
+import type * as Gifenc from "gifenc";
 import { pridatar, type PridatarOptions } from "./pridatar";
 import { motionLoop } from "./motion";
 
