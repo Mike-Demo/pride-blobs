@@ -37,7 +37,7 @@ function openInCodePen(payload: string) {
 
   document.body.appendChild(form);
   form.submit();
-  form.remove();
+  window.setTimeout(() => form.remove(), 1000);
 }
 
 export function CodeTabs({ onAnnounce, ...input }: CodeTabsProps) {
