@@ -7,6 +7,7 @@ import {
   type PridatarSearch,
 } from "@/lib/pridatar/share";
 import { Pridatar } from "./Pridatar";
+import { CodeTabs } from "./CodeTabs";
 import { FlagPicker, type FlagSelection } from "./FlagPicker";
 import { ShapePicker, type ShapeSelection } from "./ShapePicker";
 import { ExpressionPicker } from "./ExpressionPicker";
