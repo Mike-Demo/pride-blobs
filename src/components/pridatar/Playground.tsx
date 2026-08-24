@@ -129,21 +129,6 @@ export function Playground() {
   const resolved = useMemo(() => resolvePridatar(seed, options), [seed, options]);
   const svg = useMemo(() => pridatar(seed, { ...options, size, title: seed }), [seed, options, size]);
 
-  const snippet = [
-    `import { Pridatar } from "@/components/pridatar/Pridatar";`,
-    ``,
-    `<Pridatar`,
-    `  name={${JSON.stringify(seed)}}`,
-    `  flag="${flag}"`,
-    `  stripes="${stripes}"`,
-    `  shape="${shape}"`,
-    `  expression="${expression}"`,
-    `  solid="${solid}"`,
-    `  motion="${motion}"`,
-    `  background={${backdrop === "none" ? "false" : `"${backdrop}"`}}`,
-    `  size={${size}}`,
-    `/>`,
-  ].join("\n");
 
   const announce = (message: string) => {
     setStatus(message);
