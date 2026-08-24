@@ -141,7 +141,11 @@ export function pridatar(name: string, opts: PridatarOptions = {}): string {
     motion !== "off",
   );
   const face = !opts.expression || opts.expression === "auto" ? undefined : opts.expression;
-  const anim = motionStyle(uid, motion, face);
+  const anim =
+    opts.frame === undefined
+      ? motionStyle(uid, motion, face)
+      : motionFrameStyle(uid, motion, opts.frame, face);
+
 
 
   const dim = opts.size ? ` width="${opts.size}" height="${opts.size}"` : "";
