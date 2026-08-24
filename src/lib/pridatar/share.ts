@@ -27,23 +27,36 @@ const BACKDROPS: readonly BackdropValue[] = ["squircle", "circle", "square", "no
 const isFlag = (v: unknown): v is FlagSelectionValue =>
   v === "auto" || (typeof v === "string" && (FLAG_IDS as readonly string[]).includes(v));
 
-export function parsePridatarSearch(raw: Record<string, unknown>): PridatarSearch {
-  const seed = typeof raw["seed"] === "string" && raw["seed"].trim() ? raw["seed"].slice(0, 120) : DEFAULT_SEARCH.seed;
-  const flag = isFlag(raw["flag"]) ? raw["flag"] : DEFAULT_SEARCH.flag;
-  const stripes = STRIPE_MODES.includes(raw["stripes"] as StripeMode)
-    ? (raw["stripes"] as StripeMode)
-    : DEFAULT_SEARCH.stripes;
-  const backdrop = BACKDROPS.includes(raw["backdrop"] as BackdropValue)
-    ? (raw["backdrop"] as BackdropValue)
-    : DEFAULT_SEARCH.backdrop;
+export type PridatarSearchInput = Partial<PridatarSearch>;
+
+/** Keeps only valid, non-default values so `/` stays clean and links stay short. */
+export function parsePridatarSearch(raw: Record<string, unknown>): PridatarSearchInput {
+  const out: PridatarSearchInput = {};
+  if (typeof raw["seed"] === "string" && raw["seed"].trim() && raw["seed"] !== DEFAULT_SEARCH.seed) {
+    out.seed = raw["seed"].slice(0, 120);
+  }
+  if (isFlag(raw["flag"]) && raw["flag"] !== DEFAULT_SEARCH.flag) out.flag = raw["flag"];
+  if (STRIPE_MODES.includes(raw["stripes"] as StripeMode) && raw["stripes"] !== DEFAULT_SEARCH.stripes) {
+    out.stripes = raw["stripes"] as StripeMode;
+  }
+  if (BACKDROPS.includes(raw["backdrop"] as BackdropValue) && raw["backdrop"] !== DEFAULT_SEARCH.backdrop) {
+    out.backdrop = raw["backdrop"] as BackdropValue;
+  }
   const rawSize = Number(raw["size"]);
-  const size = Number.isFinite(rawSize) ? Math.min(320, Math.max(32, Math.round(rawSize))) : DEFAULT_SEARCH.size;
-  return { seed, flag, stripes, backdrop, size };
+  if (Number.isFinite(rawSize) && raw["size"] !== undefined) {
+    const size = Math.min(320, Math.max(32, Math.round(rawSize)));
+    if (size !== DEFAULT_SEARCH.size) out.size = size;
+  }
+  return out;
+}
+
+export function resolvePridatarSearch(search: PridatarSearchInput): PridatarSearch {
+  return { ...DEFAULT_SEARCH, ...search };
 }
 
 /** Only non-default values end up in the URL, keeping shared links short. */
-export function toSearchParams(search: PridatarSearch): Partial<PridatarSearch> {
-  const out: Partial<PridatarSearch> = {};
+export function toSearchParams(search: PridatarSearch): PridatarSearchInput {
+  const out: PridatarSearchInput = {};
   (Object.keys(DEFAULT_SEARCH) as (keyof PridatarSearch)[]).forEach((key) => {
     if (search[key] !== DEFAULT_SEARCH[key]) {
       Object.assign(out, { [key]: search[key] });
