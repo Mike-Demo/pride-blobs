@@ -220,7 +220,9 @@ export function Playground() {
           <button
             type="button"
             onClick={() => {
-              void copySvg(svg).then(() => announce("SVG copied"));
+              void copySvg(svg)
+                .then(() => announce("SVG copied"))
+                .catch(() => announce("Could not copy the SVG"));
             }}
             className="min-h-11 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
@@ -239,9 +241,9 @@ export function Playground() {
           <button
             type="button"
             onClick={() => {
-              void downloadPng(svg, `pridatar-${resolved.flag.id}`, 512).then(() =>
-                announce("PNG downloaded"),
-              );
+              void downloadPng(svg, `pridatar-${resolved.flag.id}`, 512)
+                .then(() => announce("PNG downloaded"))
+                .catch(() => announce("Could not export the PNG"));
             }}
             className="min-h-11 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
