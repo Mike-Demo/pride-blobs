@@ -8,7 +8,7 @@ import {
 } from "@/lib/pridatar/share";
 import { Pridatar } from "./Pridatar";
 import { FlagPicker, type FlagSelection } from "./FlagPicker";
-import { pridatar, resolvePridatar, type StripeMode, type BackgroundShape } from "@/lib/pridatar";
+import { pridatar, resolvePridatar, type StripeMode } from "@/lib/pridatar";
 import { copySvg, downloadPng, downloadSvg } from "@/lib/pridatar/export";
 import { cn } from "@/lib/utils";
 
