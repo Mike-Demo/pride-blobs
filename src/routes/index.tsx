@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import {
   parsePridatarSearch,
   resolvePridatarSearch,
@@ -7,7 +7,6 @@ import {
 import { Pridatar } from "@/components/pridatar/Pridatar";
 import { Crowd } from "@/components/pridatar/Crowd";
 import { Playground } from "@/components/pridatar/Playground";
-import { Docs } from "@/components/pridatar/Docs";
 import { FLAGS } from "@/lib/pridatar";
 
 const TITLE = "Pridatar — deterministic pride blobatars from any name";
@@ -59,9 +58,9 @@ function Index() {
           <a href="#playground" className="transition-colors hover:text-foreground">
             Playground
           </a>
-          <a href="#docs" className="transition-colors hover:text-foreground">
+          <Link to="/docs" className="transition-colors hover:text-foreground">
             Docs
-          </a>
+          </Link>
           <a
             href="https://github.com/Alain00/blobatar"
             target="_blank"
@@ -114,12 +113,12 @@ function Index() {
                 >
                   Open the playground
                 </a>
-                <a
-                  href="#docs"
+                <Link
+                  to="/docs"
                   className="rounded-lg border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:bg-accent"
                 >
                   Read the docs
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -156,17 +155,6 @@ function Index() {
           </div>
         </section>
 
-        <section id="docs" className="border-t border-border py-20">
-          <div className="mx-auto max-w-6xl scroll-mt-8 px-5">
-            <h2 className="font-display text-3xl font-semibold tracking-tight">Docs</h2>
-            <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-              One function, one component, fifteen flags.
-            </p>
-            <div className="mt-10">
-              <Docs />
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="border-t border-border py-10">
