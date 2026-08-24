@@ -26,12 +26,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const search = Route.useSearch();
+  const resolved = resolvePridatarSearch(Route.useSearch());
   const navigate = useNavigate({ from: "/" });
-  const heroName = search.seed;
+  const heroName = resolved.seed;
   const setHeroName = (value: string) => {
     void navigate({
-      search: toSearchParams({ ...search, seed: value }),
+      search: toSearchParams({ ...resolved, seed: value }),
       replace: true,
       resetScroll: false,
     });
