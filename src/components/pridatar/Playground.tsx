@@ -60,7 +60,7 @@ function Segmented<T extends string>({
             onClick={() => onChange(o.id)}
             aria-pressed={value === o.id}
             className={cn(
-              "min-h-11 flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "min-h-11 flex-1 rounded-md px-2 sm:px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               value === o.id
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
@@ -131,7 +131,7 @@ export function Playground() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         <div>
           <label
             htmlFor="playground-name"
@@ -187,7 +187,7 @@ export function Playground() {
         </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         <div className="rounded-2xl border border-border bg-card p-6">
           <div className="flex min-h-[220px] items-center justify-center">
             <Pridatar name={seed} {...options} size={size} />
