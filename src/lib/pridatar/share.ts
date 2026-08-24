@@ -1,14 +1,17 @@
 import { FLAG_IDS, type FlagId } from "./flags";
 import type { StripeMode } from "./palette";
 import type { BackgroundShape } from "./pridatar";
+import { SHAPE_IDS } from "./style";
 
 export type FlagSelectionValue = FlagId | "auto";
 export type BackdropValue = BackgroundShape | "none";
+export type ShapeSelectionValue = string;
 
 export interface PridatarSearch {
   seed: string;
   flag: FlagSelectionValue;
   stripes: StripeMode;
+  shape: ShapeSelectionValue;
   backdrop: BackdropValue;
   size: number;
 }
@@ -17,6 +20,7 @@ export const DEFAULT_SEARCH: PridatarSearch = {
   seed: "ada@example.com",
   flag: "auto",
   stripes: "background",
+  shape: "auto",
   backdrop: "squircle",
   size: 160,
 };
@@ -38,6 +42,14 @@ export function parsePridatarSearch(raw: Record<string, unknown>): PridatarSearc
   if (isFlag(raw["flag"]) && raw["flag"] !== DEFAULT_SEARCH.flag) out.flag = raw["flag"];
   if (STRIPE_MODES.includes(raw["stripes"] as StripeMode) && raw["stripes"] !== DEFAULT_SEARCH.stripes) {
     out.stripes = raw["stripes"] as StripeMode;
+  }
+  const shape = raw["shape"];
+  if (
+    typeof shape === "string" &&
+    shape !== DEFAULT_SEARCH.shape &&
+    (SHAPE_IDS as readonly string[]).includes(shape)
+  ) {
+    out.shape = shape;
   }
   if (BACKDROPS.includes(raw["backdrop"] as BackdropValue) && raw["backdrop"] !== DEFAULT_SEARCH.backdrop) {
     out.backdrop = raw["backdrop"] as BackdropValue;
