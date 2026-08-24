@@ -13,6 +13,7 @@ import { seedState, stream } from "./vendor/hash";
 import { superellipse } from "./vendor/shape";
 import { traits, type TraitOverrides } from "./vendor/traits";
 import { style, shapePin, type ShapeId } from "./style";
+import { expressionPins, type ExpressionSelection } from "./expression";
 
 export type BackgroundShape = "square" | "circle" | "squircle";
 
