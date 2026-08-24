@@ -67,12 +67,23 @@ function gradient(id: string, stripes: readonly string[]): string {
   return `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="100">${stops}</linearGradient>`;
 }
 
-/** Merges an explicit silhouette choice into the trait overrides. */
+/** Merges explicit silhouette and expression choices into the trait overrides. */
 function shapeTraits(opts: PridatarOptions): TraitOverrides | undefined {
   const pin = !opts.shape || opts.shape === "auto" ? undefined : shapePin(opts.shape);
-  if (pin === undefined) return opts.traits;
-  return { ...opts.traits, shape: pin };
+  const face = expressionPins(opts.expression);
+  if (pin === undefined && !face && !opts.traits) return undefined;
+  return {
+    ...face,
+    ...opts.traits,
+    ...(pin === undefined ? {} : { shape: pin }),
+  };
 }
+
+/** A user-supplied flat fill, or undefined when the palette should derive one. */
+const solidFill = (opts: PridatarOptions): string | undefined =>
+  !opts.solid || opts.solid === "auto" || !/^#[0-9a-fA-F]{6}$/.test(opts.solid)
+    ? undefined
+    : opts.solid;
 
 /** Deterministic flag choice for `flag: "auto"`. */
 export const autoFlag = (name: string, normalize = true): FlagId =>
