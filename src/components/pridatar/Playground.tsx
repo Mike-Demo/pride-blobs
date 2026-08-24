@@ -12,7 +12,7 @@ import { ShapePicker, type ShapeSelection } from "./ShapePicker";
 import { ExpressionPicker } from "./ExpressionPicker";
 import type { ExpressionSelection, MotionPreset } from "@/lib/pridatar";
 import { pridatar, resolvePridatar, type StripeMode } from "@/lib/pridatar";
-import { copySvg, downloadPng, downloadSvg } from "@/lib/pridatar/export";
+import { copySvg, downloadGif, downloadPng, downloadSvg } from "@/lib/pridatar/export";
 import { cn } from "@/lib/utils";
 
 const STRIPE_MODES: { id: StripeMode; label: string }[] = [
@@ -90,6 +90,8 @@ export function Playground() {
   const current = resolvePridatarSearch(routeApi.useSearch());
   const navigate = useNavigate({ from: "/" });
   const [status, setStatus] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
 
   const { seed: name, flag, stripes, shape, expression, solid, motion, backdrop, size } = current;
 
@@ -338,7 +340,24 @@ export function Playground() {
           >
             Download PNG
           </button>
+          <button
+            type="button"
+            disabled={motion === "off" || busy}
+            onClick={() => {
+              setBusy(true);
+              announce("Rendering the GIF…");
+              void downloadGif(seed, options, `pridatar-${resolved.flag.id}`, 256)
+                .then(() => announce("GIF downloaded"))
+                .catch(() => announce("Could not export the GIF"))
+                .finally(() => setBusy(false));
+            }}
+            title={motion === "off" ? "Pick Idle or Bouncy motion first" : undefined}
+            className="min-h-11 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {busy ? "Rendering GIF…" : "Download GIF"}
+          </button>
         </div>
+
 
         <p aria-live="polite" className="h-4 text-sm text-muted-foreground">
           {status}
