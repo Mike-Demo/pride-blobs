@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { parsePridatarSearch, toSearchParams } from "@/lib/pridatar/share";
 import { Pridatar } from "@/components/pridatar/Pridatar";
 import { Crowd } from "@/components/pridatar/Crowd";
 import { Playground } from "@/components/pridatar/Playground";
