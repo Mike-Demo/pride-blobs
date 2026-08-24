@@ -2,16 +2,22 @@ import { FLAG_IDS, type FlagId } from "./flags";
 import type { StripeMode } from "./palette";
 import type { BackgroundShape } from "./pridatar";
 import { SHAPE_IDS } from "./style";
+import { EXPRESSION_IDS, type ExpressionSelection } from "./expression";
 
 export type FlagSelectionValue = FlagId | "auto";
 export type BackdropValue = BackgroundShape | "none";
 export type ShapeSelectionValue = string;
+export type ExpressionValue = ExpressionSelection;
+/** `"auto"` or a `#rrggbb` fill for the side the stripes do not cover. */
+export type SolidValue = string;
 
 export interface PridatarSearch {
   seed: string;
   flag: FlagSelectionValue;
   stripes: StripeMode;
   shape: ShapeSelectionValue;
+  expression: ExpressionValue;
+  solid: SolidValue;
   backdrop: BackdropValue;
   size: number;
 }
@@ -21,6 +27,8 @@ export const DEFAULT_SEARCH: PridatarSearch = {
   flag: "auto",
   stripes: "background",
   shape: "auto",
+  expression: "auto",
+  solid: "auto",
   backdrop: "squircle",
   size: 160,
 };
@@ -51,6 +59,16 @@ export function parsePridatarSearch(raw: Record<string, unknown>): PridatarSearc
   ) {
     out.shape = shape;
   }
+  const expression = raw["expression"];
+  if (
+    typeof expression === "string" &&
+    expression !== DEFAULT_SEARCH.expression &&
+    (EXPRESSION_IDS as readonly string[]).includes(expression)
+  ) {
+    out.expression = expression as ExpressionValue;
+  }
+  const solid = raw["solid"];
+  if (typeof solid === "string" && /^#[0-9a-fA-F]{6}$/.test(solid)) out.solid = solid.toLowerCase();
   if (BACKDROPS.includes(raw["backdrop"] as BackdropValue) && raw["backdrop"] !== DEFAULT_SEARCH.backdrop) {
     out.backdrop = raw["backdrop"] as BackdropValue;
   }

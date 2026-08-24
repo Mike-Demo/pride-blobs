@@ -13,6 +13,7 @@ import { seedState, stream } from "./vendor/hash";
 import { superellipse } from "./vendor/shape";
 import { traits, type TraitOverrides } from "./vendor/traits";
 import { style, shapePin, type ShapeId } from "./style";
+import { expressionPins, type ExpressionSelection } from "./expression";
 
 export type BackgroundShape = "square" | "circle" | "squircle";
 
@@ -25,6 +26,10 @@ export interface PridatarOptions {
   stripes?: StripeMode;
   /** Pins the silhouette. `"auto"` derives one from the seed. Default `"auto"`. */
   shape?: ShapeId | "auto";
+  /** Pins the face. `"auto"` derives one from the seed. Default `"auto"`. */
+  expression?: ExpressionSelection;
+  /** Flat fill for whichever side the stripes do not cover. `"auto"` derives it. */
+  solid?: string | "auto";
   /** Backdrop shape, or `false` for a transparent backdrop. Default `"squircle"`. */
   background?: false | BackgroundShape;
   /** Adds a `<title>` for screen readers. */
@@ -62,12 +67,23 @@ function gradient(id: string, stripes: readonly string[]): string {
   return `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="100">${stops}</linearGradient>`;
 }
 
-/** Merges an explicit silhouette choice into the trait overrides. */
+/** Merges explicit silhouette and expression choices into the trait overrides. */
 function shapeTraits(opts: PridatarOptions): TraitOverrides | undefined {
   const pin = !opts.shape || opts.shape === "auto" ? undefined : shapePin(opts.shape);
-  if (pin === undefined) return opts.traits;
-  return { ...opts.traits, shape: pin };
+  const face = expressionPins(opts.expression);
+  if (pin === undefined && !face && !opts.traits) return undefined;
+  return {
+    ...face,
+    ...opts.traits,
+    ...(pin === undefined ? {} : { shape: pin }),
+  };
 }
+
+/** A user-supplied flat fill, or undefined when the palette should derive one. */
+const solidFill = (opts: PridatarOptions): string | undefined =>
+  !opts.solid || opts.solid === "auto" || !/^#[0-9a-fA-F]{6}$/.test(opts.solid)
+    ? undefined
+    : opts.solid;
 
 /** Deterministic flag choice for `flag: "auto"`. */
 export const autoFlag = (name: string, normalize = true): FlagId =>
@@ -84,7 +100,7 @@ export function resolvePridatar(name: string, opts: PridatarOptions = {}): Resol
   return {
     flag,
     stripes: mode,
-    colors: prideColors({ flag, mode, pick: t("pride.stripe") }),
+    colors: prideColors({ flag, mode, pick: t("pride.stripe"), solid: solidFill(opts) }),
     shape: style.layout(t).shape,
   };
 }
