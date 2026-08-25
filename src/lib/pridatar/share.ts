@@ -59,7 +59,7 @@ export function parsePridatarSearch(raw: Record<string, unknown>): PridatarSearc
   if (
     typeof shape === "string" &&
     shape !== DEFAULT_SEARCH.shape &&
-    (SHAPE_IDS as readonly string[]).includes(shape)
+    (shape === "auto" || (SHAPE_IDS as readonly string[]).includes(shape))
   ) {
     out.shape = shape;
   }
@@ -67,7 +67,7 @@ export function parsePridatarSearch(raw: Record<string, unknown>): PridatarSearc
   if (
     typeof expression === "string" &&
     expression !== DEFAULT_SEARCH.expression &&
-    (EXPRESSION_IDS as readonly string[]).includes(expression)
+    (expression === "auto" || (EXPRESSION_IDS as readonly string[]).includes(expression))
   ) {
     out.expression = expression as ExpressionValue;
   }
@@ -75,7 +75,9 @@ export function parsePridatarSearch(raw: Record<string, unknown>): PridatarSearc
     out.motion = raw["motion"];
   }
   const solid = raw["solid"];
-  if (typeof solid === "string" && /^#[0-9a-fA-F]{6}$/.test(solid)) out.solid = solid.toLowerCase();
+  if (solid === "auto") out.solid = "auto";
+  else if (typeof solid === "string" && /^#[0-9a-fA-F]{6}$/.test(solid)) out.solid = solid.toLowerCase();
+
   if (BACKDROPS.includes(raw["backdrop"] as BackdropValue) && raw["backdrop"] !== DEFAULT_SEARCH.backdrop) {
     out.backdrop = raw["backdrop"] as BackdropValue;
   }
