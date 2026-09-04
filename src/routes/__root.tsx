@@ -10,6 +10,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import waThemeCss from "@/design-system/font-awsome-web-awesome-171158/webawesome/theme.css?url";
+import { WebAwesomeLoader } from "@/design-system/font-awsome-web-awesome-171158";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -80,12 +82,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Pridatar — pride blobatars" },
       { name: "description", content: "Deterministic pride flag avatars generated from any name." },
       { name: "author", content: "Pridatar" },
+      {
+        name: "google-site-verification",
+        content: "9GgJ0egVDpjJrKvCQZ1TwrCQNPWfEK_HHg_iHQJjevg",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.12.0/dist/styles/webawesome.css" },
-      { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css" },
+      { rel: "stylesheet", href: waThemeCss },
       {
         rel: "stylesheet",
         href: appCss,
@@ -108,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="wa-theme-default wa-palette-default wa-dark">
       <head>
         <HeadContent />
       </head>
@@ -125,6 +130,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <WebAwesomeLoader />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
