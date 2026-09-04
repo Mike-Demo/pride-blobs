@@ -80,6 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Pridatar — pride blobatars" },
       { name: "description", content: "Deterministic pride flag avatars generated from any name." },
       { name: "author", content: "Pridatar" },
+      {
+        name: "google-site-verification",
+        content: "9GgJ0egVDpjJrKvCQZ1TwrCQNPWfEK_HHg_iHQJjevg",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
