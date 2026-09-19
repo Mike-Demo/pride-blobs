@@ -16,5 +16,4 @@ export default defineConfig({
     pages: [{ path: "/" }, { path: "/docs" }],
     prerender: { enabled: true, autoStaticPathsDiscovery: false },
   },
-  nitro: { preset: "static" },
 });
