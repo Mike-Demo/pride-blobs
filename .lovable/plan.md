@@ -20,6 +20,12 @@ The build log shows two separate problems, and one wrong instruction in the depl
 
 I can't push to GitHub directly — Lovable syncs the repo automatically once the changes are in. After it syncs, retry the Spacefast build (and correct the output folder in its build settings if it still says `dist/client`).
 
+## On the Copilot write-up you shared
+
+It reaches the same conclusion I did about the failing step, and its point about the pre-render 404 being the next problem matches what I found. Where it guesses at the cause, it's off: it suggests hunting for a hand-written entry setting in the build file, and there isn't one — our build file is six lines and the only unusual thing in it is the unsupported "static" setting, which is what leaves the entry unset. So the search it recommends would come up empty; removing that one setting is the actual fix.
+
+Its two side notes are both real but optional, and I'd leave them out of this change: the paths-plugin warning is cosmetic, and the ~800 kB component-library chunk is a loading-speed improvement, not a build failure. Happy to do either afterwards.
+
 ## Technical notes
 
 - `vite.config.ts`: drop `nitro: { preset: "static" }`. Keep `server: { entry: "server" }`. Keep `pages` + `prerender` only if step 2 confirms they produce HTML; otherwise replace with TanStack Start's SPA shell mode.
