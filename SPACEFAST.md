@@ -13,7 +13,9 @@ Spacefast builds that repo and serves the live site.
 | Node version   | 20.3+           |
 
 The site is fully static: `vite.config.ts` prerenders `/` and `/docs` to HTML at
-build time, so no server runtime is required.
+build time, so no server runtime is required. The framework writes the finished
+site to `.output/public`; the build command then copies it to `dist/client` for
+Spacefast's publish-folder check.
 
 ## What ships in the output
 
@@ -35,5 +37,5 @@ domain from Lovable's project settings so the two don't compete over DNS.
 
 ## Rollback
 
-Reverting the `pages`/`prerender`/`nitro` block in `vite.config.ts` restores the
-previous server-rendered Cloudflare Worker build.
+Reverting the `pages`/`prerender` block in `vite.config.ts` and restoring the
+original build command removes the static Spacefast output.
