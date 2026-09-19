@@ -27,7 +27,7 @@ Two pages exist (`/` and `/docs`) plus a sitemap file, so the static output is s
 
 ## Things to decide later (not blocking)
 
-- Whether to keep publishing from Lovable as a staging copy or stop entirely.
+- You keep editing and previewing here in Lovable exactly as you do today — only where the live site is served changes. Decide whether to also keep publishing from Lovable as a staging copy, or stop entirely.
 - Whether to commit `.spacefast/space.json` so repeat publishes update the same Space.
 
 ## Technical notes
