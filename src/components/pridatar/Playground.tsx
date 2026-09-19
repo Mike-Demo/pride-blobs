@@ -15,6 +15,7 @@ import type { ExpressionSelection, MotionPreset } from "@/lib/pridatar";
 import { pridatar, resolvePridatar, type StripeMode } from "@/lib/pridatar";
 import { copySvg, downloadGif, downloadPng, downloadSvg } from "@/lib/pridatar/export";
 import { cn } from "@/lib/utils";
+import { useHydrated } from "@/hooks/use-hydrated";
 
 const STRIPE_MODES: { id: StripeMode; label: string }[] = [
   { id: "background", label: "Backdrop" },
@@ -88,7 +89,9 @@ function Segmented<T extends string>({
 const routeApi = getRouteApi("/");
 
 export function Playground() {
-  const current = resolvePridatarSearch(routeApi.useSearch());
+  const hydrated = useHydrated();
+  const search = routeApi.useSearch();
+  const current = resolvePridatarSearch(hydrated ? search : {});
   const navigate = useNavigate({ from: "/" });
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);

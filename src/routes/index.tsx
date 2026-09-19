@@ -8,6 +8,7 @@ import { Pridatar } from "@/components/pridatar/Pridatar";
 import { Crowd } from "@/components/pridatar/Crowd";
 import { Playground } from "@/components/pridatar/Playground";
 import { FLAGS } from "@/lib/pridatar";
+import { useHydrated } from "@/hooks/use-hydrated";
 
 const TITLE = "Pridatar — deterministic pride blobatars from any name";
 const DESCRIPTION =
@@ -29,7 +30,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const resolved = resolvePridatarSearch(Route.useSearch());
+  const hydrated = useHydrated();
+  const search = Route.useSearch();
+  const resolved = resolvePridatarSearch(hydrated ? search : {});
   const navigate = useNavigate({ from: "/" });
   const heroName = resolved.seed;
   const setHeroName = (value: string) => {
