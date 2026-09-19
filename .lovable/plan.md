@@ -1,41 +1,36 @@
-# Move hosting to Spacefast, keep building in Lovable
+# Make the app buildable by Spacefast
 
-The workflow you described works, and it's the cleanest option:
+You handle Spacefast sign-in, the GitHub connection, and DNS. This plan covers only the changes inside the app so that a build from the repo produces a folder Spacefast can serve.
+
+Workflow once done:
 
 ```text
 edit in Lovable  ->  auto-sync to GitHub  ->  Spacefast builds & serves blobs.gay
 ```
 
-You keep editing and previewing here exactly as you do today. Lovable stops being the thing that serves the public site; pushing to GitHub becomes the deploy trigger.
+## What changes and why
 
-## What I can and can't do
+Today the build produces a small server app, because that's what Lovable's hosting runs. Nothing on this site actually needs a server — no database, no logins, everything happens in the visitor's browser — so the build gets switched to output plain files instead. Only two pages exist (`/` and `/docs`) plus a sitemap, so the output is tiny.
 
-- I can prepare the project so a Spacefast build from the repo works first try.
-- I can't sign in to Spacefast, connect your GitHub account, or change DNS. Those are three clicks/commands on your side, and I'll give you the exact steps.
-- I won't use the one-use sign-in link.
+## Changes
 
-## The one real obstacle
+1. **Build output becomes static files.** Switch the build target so it writes a folder of HTML/CSS/JS rather than a server bundle, and tell it to pre-render the home page and the docs page so each ships as real HTML.
+2. **Sitemap becomes a real file.** It's currently generated on request by the server; it becomes a fixed file served alongside the pages. The robots file already points at the right address, so nothing else changes.
+3. **Unknown-address handling.** With no server, a visitor landing on a mistyped address needs the host to fall back to the app. Add the small config file Spacefast reads for that, so deep links and share links never 404.
+4. **Deploy notes in the repo.** A short `SPACEFAST.md` recording the build command and output folder to enter in Spacefast, plus the domain step — so the setup isn't only in this chat.
 
-The site is currently built as a small server app (that's how Lovable hosts it), not as a folder of files. Spacefast's Git path wants a build command and an output folder. Nothing here needs a server: no database, no logins, everything happens in the visitor's browser. Two pages exist (`/` and `/docs`) plus a sitemap, so the static output is tiny.
+## Verification before I call it done
 
-## Steps
+- Both pages exist as real HTML in the output, with their own titles, descriptions, social preview tags and the Search Console verification tag baked in.
+- Opening the built folder in a browser: the avatar renders, flag/shape/expression pickers work, PNG and GIF downloads work, a share link restores the exact same avatar, and the CodePen button posts.
 
-1. Switch the build to produce static files: prerender `/` and `/docs`, and turn the sitemap into a plain file in `public/` instead of a generated one.
-2. Build and confirm the output folder has real HTML for both pages with titles, descriptions, social tags and the Search Console verification tag baked in.
-3. Check the built folder in a browser: blob renders, pickers work, PNG/GIF download works, share links restore the exact avatar, CodePen button posts.
-4. Write a short `SPACEFAST.md` in the repo covering the parts you run:
-   - Connect this Lovable project to GitHub (Plus menu → GitHub → Connect project), if it isn't already.
-   - Connect that repo in Spacefast so each push builds and publishes.
-   - Build command and output folder to enter there.
-   - `sf domains add blobs.gay --role primary`, then the DNS records it prints.
-5. Note the switchover: once blobs.gay is active on Spacefast, remove the domain from Lovable's project settings so the two don't fight over DNS. Rollbacks then happen on Spacefast (`sf rollback`), version history stays in Lovable and GitHub.
+## What stays exactly the same
 
-## Open question for you
-
-- Spacefast can build from the repo itself, or you can run `sf publish` from your machine. Repo-connected is the "push to deploy" option you described; I'll write the docs for that unless you say otherwise.
+Editing and previewing in Lovable, all app behaviour, styling, and every component. No design or feature changes.
 
 ## Technical notes
 
-- Build currently targets a Cloudflare Worker via nitro through `@lovable.dev/vite-tanstack-config`. The change adds TanStack Start prerender config for the two routes and a static-friendly nitro preset; the dev server and Lovable preview are unaffected.
-- `src/routes/sitemap[.]xml.ts` becomes `public/sitemap.xml`; `robots.txt` already points at it.
-- No app logic, styling, or component changes.
+- Build runs through `@lovable.dev/vite-tanstack-config` (TanStack Start + nitro, currently a Cloudflare Worker target). The change is a static nitro preset plus TanStack Start prerender entries for `/` and `/docs`; `vite dev` and the Lovable preview are untouched.
+- `src/routes/sitemap[.]xml.ts` is replaced by `public/sitemap.xml`.
+- SPA fallback config added under `public/` for Spacefast.
+- Risk and rollback: if the static build misbehaves, reverting these config files restores the current Worker build exactly; Lovable hosting keeps working throughout, so the domain only moves once the Spacefast copy is verified.
