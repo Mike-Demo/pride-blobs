@@ -1,41 +1,19 @@
-# Publishing blobs.gay on Spacefast
+# Spacefast build spec
 
-Lovable stays the place you edit and preview. Lovable auto-syncs to GitHub, and
-Spacefast builds that repo and serves the live site.
+Full explanation: [docs/spacefast-hosting.md](docs/spacefast-hosting.md).
 
-## Spacefast build settings
+| Setting | Value |
+| --- | --- |
+| Install | `bun install` |
+| Build command | `bun run build` |
+| Output folder | `dist/client` |
+| Node version | 20.3+ |
 
-| Setting        | Value           |
-| -------------- | --------------- |
-| Install        | `bun install`   |
-| Build command  | `bun run build` |
-| Output folder  | `dist/client`   |
-| Node version   | 20.3+           |
+`bun run build` = `vite build && node scripts/copy-static-output.mjs`.
 
-The site is fully static: `vite.config.ts` prerenders `/` and `/docs` to HTML at
-build time, so no server runtime is required. The framework writes the finished
-site to `.output/public`; the build command then copies it to `dist/client` for
-Spacefast's publish-folder check.
+The site is fully static: `vite.config.ts` prerenders `/` and `/docs` to HTML at build
+time, so no server runtime is required. The framework writes the finished site to
+`.output/public`; the post-build script copies it to `dist/client` for Spacefast's
+publish-folder check.
 
-## What ships in the output
-
-- `index.html`, `docs/index.html` — prerendered pages with their own titles,
-  descriptions and the Google Search Console verification tag
-- `sitemap.xml`, `robots.txt`, `favicon.png`
-- `_redirects` with `/*  /index.html  200` — the fallback so share links and
-  unknown paths still load the app
-
-## Custom domain
-
-```bash
-sf domains add blobs.gay --role primary
-sf domains check blobs.gay
-```
-
-Apply the DNS records Spacefast prints. Once the domain is active, remove the
-domain from Lovable's project settings so the two don't compete over DNS.
-
-## Rollback
-
-Reverting the `pages`/`prerender` block in `vite.config.ts` and restoring the
-original build command removes the static Spacefast output.
+Do not set `nitro: { preset: "static" }` — it fails the SSR build.
