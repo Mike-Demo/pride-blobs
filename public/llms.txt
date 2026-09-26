@@ -1,0 +1,48 @@
+# Pridatar — deterministic pride blobatars from any name
+
+> Turn any name into a striped pride-flag blob avatar, the same way every time. 15 flags, browser-generated SVG/PNG/animated GIF, no accounts, no uploads.
+
+## What this is
+
+Pridatar (live at https://blobs.gay) is a pride-focused fork of blobatar
+(MIT License) that generates deterministic, name-seeded avatars dressed in
+pride flags. Every string — a handle, an email, a repo name — produces the
+same avatar on every render. Everything runs entirely in the browser; there
+is no server runtime, no database and no login.
+
+## How generation works
+
+- **Seed**: any text string (name, handle, email). The seed drives the
+  avatar deterministically — the same seed always yields the same blob.
+- **15 pride flags** mapped to accessible, contrast-checked colour palettes
+  (including rainbow, trans, lesbian, gay, bisexual, pansexual, asexual,
+  nonbinary and more — see https://blobs.gay/docs for the full table).
+- **Shapes**: classic blob plus cat, bunny, bear, fox and a waving-flag
+  silhouette.
+- **Expressions**: eight faces, each with matching idle/bouncy animation.
+- **Colour control**: striped flag fill on the body or the backdrop, with a
+  solid colour on the other side.
+- **Shareable URLs**: seed, flag, shape, expression, colours and size all
+  live in the link (e.g. `https://blobs.gay/?seed=demo&flag=rainbow`), so any
+  generated avatar is a link you can send.
+- **Exports**: SVG, PNG and animated GIF, generated in the browser.
+- **Embed code**: copy-paste React, inline SVG and CSS `background-image`
+  snippets, plus an "Open in CodePen" button.
+
+## Pages
+
+- Home and generator playground: https://blobs.gay/
+- Documentation (usage, flag reference table, licensing): https://blobs.gay/docs
+- Licenses and upstream attribution: https://blobs.gay/licenses
+
+## Machine-readable files
+
+- `https://blobs.gay/sitemap.xml` — XML sitemap of all pages
+- `https://blobs.gay/robots.txt` — crawler policy (bots allowed)
+- `https://blobs.gay/.well-known/agent.json` — A2A-style agent card describing this site's capabilities
+- `https://blobs.gay/llms.txt` — this file
+
+## Source
+
+- Repository: https://github.com/Mike-Demo/pride-blobs (MIT License)
+- Upstream blobatar project: https://github.com/Alain00/blobatar
