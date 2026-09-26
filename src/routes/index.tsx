@@ -14,6 +14,23 @@ const TITLE = "Pridatar — deterministic pride blobatars from any name";
 const DESCRIPTION =
   "A pride-focused fork of blobatar: every name becomes a striped flag avatar, the same way every time. 15 flags, SVG output, no dependencies.";
 
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Pridatar",
+  url: "https://blobs.gay",
+  description: DESCRIPTION,
+  applicationCategory: "DesignApplication",
+  operatingSystem: "Web",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  creator: {
+    "@type": "Person",
+    name: "Mike Demopoulos",
+    url: "https://mikedemo.dev",
+  },
+  license: "https://github.com/Mike-Demo/pride-blobs/blob/main/LICENSE",
+};
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -22,7 +39,15 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://blobs.gay/" },
+      { property: "og:site_name", content: "Pridatar" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
+    ],
+    links: [{ rel: "canonical", href: "https://blobs.gay/" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(JSON_LD) },
     ],
   }),
   validateSearch: (raw: Record<string, unknown>) => parsePridatarSearch(raw),
