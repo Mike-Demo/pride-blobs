@@ -81,6 +81,17 @@ function DocsPage() {
             </a>
             , MIT licensed.
           </p>
+          <p>
+            <a
+              href="https://github.com/Mike-Demo"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="MikeDemo on GitHub (opens in new tab)"
+              className="text-foreground underline underline-offset-4"
+            >
+              MikeDemo on GitHub
+            </a>
+          </p>
         </div>
       </footer>
     </div>
