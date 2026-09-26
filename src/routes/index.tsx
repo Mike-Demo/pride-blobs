@@ -28,7 +28,7 @@ const JSON_LD = {
     name: "Mike Demopoulos",
     url: "https://mikedemo.dev",
   },
-  license: "https://github.com/Mike-Demo/pride-blobs/blob/main/LICENSE",
+  license: "https://blobs.gay/licenses",
 };
 
 export const Route = createFileRoute("/")({
