@@ -64,6 +64,9 @@ function Index() {
           <Link to="/docs" className="transition-colors hover:text-foreground">
             Docs
           </Link>
+          <Link to="/licenses" className="transition-colors hover:text-foreground">
+            Licenses
+          </Link>
           <a
             href="https://github.com/Alain00/blobatar"
             target="_blank"
