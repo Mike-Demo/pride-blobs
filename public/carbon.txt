@@ -3,7 +3,7 @@ last_updated = 2026-09-27
 
 [org]
 disclosures = [
-    { doc_type = "web-page", url = "https://blobs.gay/license", domain = "blobs.gay", title = "Carbon disclosure for Pridatar" },
+    { doc_type = "web-page", url = "https://blobs.gay/licenses", domain = "blobs.gay", title = "Carbon disclosure for Pridatar" },
 ]
 
 [upstream]
