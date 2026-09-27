@@ -14,6 +14,22 @@ const TITLE = "Pridatar — deterministic pride blobatars from any name";
 const DESCRIPTION =
   "A pride-focused fork of blobatar: every name becomes a striped flag avatar, the same way every time. 15 flags, SVG output, no dependencies.";
 
+const JSON_LD_WEBSITE = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Pridatar",
+  url: "https://blobs.gay/",
+  description: DESCRIPTION,
+};
+
+const JSON_LD_ORG = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Pridatar",
+  url: "https://blobs.gay/",
+  logo: "https://blobs.gay/favicon.png",
+};
+
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
@@ -48,6 +64,8 @@ export const Route = createFileRoute("/")({
     links: [{ rel: "canonical", href: "https://blobs.gay/" }],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(JSON_LD) },
+      { type: "application/ld+json", children: JSON.stringify(JSON_LD_WEBSITE) },
+      { type: "application/ld+json", children: JSON.stringify(JSON_LD_ORG) },
     ],
   }),
   validateSearch: (raw: Record<string, unknown>) => parsePridatarSearch(raw),
