@@ -196,6 +196,20 @@ function LicensesPage() {
             </ul>
           </section>
         ))}
+
+        <section className="mt-10">
+          <h2 className="text-lg font-semibold">Digital carbon</h2>
+          <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+            Homepage transfer is about 172.4 KB, roughly 0.026 g of CO2 per visit.
+            Estimated with CO2.js using the Sustainable Web Design Model v4, measured
+            2026-09-27. Hosting: SpaceFast, which is not currently listed in the Green
+            Web Foundation&apos;s green hosting dataset. Machine-readable disclosure:{" "}
+            <a href="/carbon.txt" className="text-foreground underline underline-offset-4">
+              /carbon.txt
+            </a>
+            .
+          </p>
+        </section>
       </main>
 
       <footer className="border-t border-border py-10">
