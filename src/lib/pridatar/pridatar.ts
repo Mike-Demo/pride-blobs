@@ -43,6 +43,13 @@ export interface PridatarOptions {
   background?: false | BackgroundShape;
   /** Adds a `<title>` for screen readers. */
   title?: string;
+  /**
+   * Overrides the deterministic id suffix used for gradient/animation ids.
+   * The React component sets this per mount (React useId) so repeated
+   * avatars on one page never emit duplicate ids. Standalone renders
+   * (exports, data URIs) omit it and keep the deterministic default.
+   */
+  uid?: string;
   /** Applies NFC + trim + lowercase to the name. Default true. */
   normalize?: boolean;
   /** Pins individual layout traits, in the same 0–1 units the hash produces. */
@@ -121,7 +128,7 @@ export function pridatar(name: string, opts: PridatarOptions = {}): string {
   const t = traits(name, normalize, shapeTraits(opts));
   const layout = style.layout(t);
 
-  const uid = seedState(`${name}|${flag.id}|${stripes}`, normalize).toString(36);
+  const uid = opts.uid ?? seedState(`${name}|${flag.id}|${stripes}`, normalize).toString(36);
   const bgId = `pa-bg-${uid}`;
   const bodyId = `pa-body-${uid}`;
 

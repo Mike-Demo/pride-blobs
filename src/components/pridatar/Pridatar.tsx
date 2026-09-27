@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useId, useMemo } from "react";
 import { pridatar, type PridatarOptions } from "@/lib/pridatar";
 
 export interface PridatarProps extends PridatarOptions {
@@ -14,12 +14,15 @@ export interface PridatarProps extends PridatarOptions {
  * avatar in the page's own accessibility tree.
  */
 export function Pridatar({ name, className, decorative = false, ...options }: PridatarProps) {
+  // Unique per mount: gradient/animation ids must not repeat when the same
+  // avatar renders twice on a page (e.g. the doubled Crowd marquee).
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const svg = useMemo(
     () =>
       decorative
-        ? pridatar(name, options)
-        : pridatar(name, { ...options, title: options.title ?? name }),
-    [name, options, decorative],
+        ? pridatar(name, { ...options, uid })
+        : pridatar(name, { ...options, title: options.title ?? name, uid }),
+    [name, options, uid, decorative],
   );
 
   return (
