@@ -154,6 +154,22 @@ function LicensesPage() {
           </a>
         </div>
 
+        <section className="mt-10">
+          <h2 className="text-lg font-semibold">Open source</h2>
+          <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+            This site's source code is on{" "}
+            <a
+              href="https://github.com/Mike-Demo/pride-blobs"
+              target="_blank"
+              rel="noreferrer"
+              className="text-foreground underline underline-offset-4"
+            >
+              GitHub
+            </a>
+            .
+          </p>
+        </section>
+
         {GROUPS.map((group) => (
           <section key={group.title} className="mt-10">
             <h2 className="text-lg font-semibold">{group.title}</h2>
