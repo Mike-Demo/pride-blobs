@@ -125,8 +125,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
  * - 'unsafe-inline' scripts: required by TanStack Start. The $tsr hydration
  *   stream barrier and the scroll-restoration script are inline; the
  *   barrier's serialized state changes per request so hashes are impossible,
- *   and meta-delivered policies cannot use nonces. No external script source
- *   is allowed.
+ *   and meta-delivered policies cannot use nonces. External scripts: the
+ *   private analytics tracker (https://umami-lite.view.fast) is the only
+ *   allowed off-origin script.
  * - 'unsafe-inline' styles: avatar motion keyframes ship inside the SVG
  *   <style> block (Playground/Docs motion examples). No external stylesheet
  *   beyond Google Fonts.
@@ -135,11 +136,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
  */
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' https://umami-lite.view.fast",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: https://app.aikido.dev",
-  "connect-src 'self'",
+  "connect-src 'self' https://umami-lite.view.fast",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -151,6 +152,11 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" className="wa-theme-default wa-palette-default wa-dark">
       <head>
         <meta httpEquiv="Content-Security-Policy" content={CSP} />
+        <script
+          defer
+          src="https://umami-lite.view.fast/tracker.js"
+          data-website-id="73d870d6-3ae2-4ec4-ac9f-17657e37f736"
+        />
         <HeadContent />
       </head>
       <body>
