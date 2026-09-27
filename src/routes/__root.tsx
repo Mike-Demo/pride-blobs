@@ -111,10 +111,46 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+/**
+ * Content-Security-Policy, delivered as a <meta> tag because this static host
+ * offers no response-header access.
+ *
+ * Tightest policy that keeps the app working, verified against every resource
+ * the app actually loads:
+ * - 'self': Vite JS/CSS bundles, local Web Awesome vendor bundle, favicon
+ * - https://fonts.googleapis.com: Google Fonts stylesheet (head link)
+ * - https://fonts.gstatic.com: font files
+ * - https://app.aikido.dev: Aikido audit badge image on /licenses
+ * - data:: PNG export rasterizes the avatar SVG through a canvas data: URI
+ * - 'unsafe-inline' scripts: required by TanStack Start. The $tsr hydration
+ *   stream barrier and the scroll-restoration script are inline; the
+ *   barrier's serialized state changes per request so hashes are impossible,
+ *   and meta-delivered policies cannot use nonces. No external script source
+ *   is allowed.
+ * - 'unsafe-inline' styles: avatar motion keyframes ship inside the SVG
+ *   <style> block (Playground/Docs motion examples). No external stylesheet
+ *   beyond Google Fonts.
+ * Denied outright: plugins/objects, frames, off-origin fetches (connect-src),
+ * and any base/form target outside 'self'.
+ */
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "img-src 'self' data: https://app.aikido.dev",
+  "connect-src 'self'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "upgrade-insecure-requests",
+].join("; ");
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="wa-theme-default wa-palette-default wa-dark">
       <head>
+        <meta httpEquiv="Content-Security-Policy" content={CSP} />
         <HeadContent />
       </head>
       <body>
