@@ -1,10 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Docs } from "@/components/pridatar/Docs";
+import { Docs, FAQS } from "@/components/pridatar/Docs";
 import { Pridatar } from "@/components/pridatar/Pridatar";
 
 const TITLE = "Pridatar docs — usage, flags and licensing";
 const DESCRIPTION =
   "How to generate pride blobatars: install paths, vanilla and React usage, the full flag reference table, and upstream attribution.";
+
+const FAQ_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
+};
 
 export const Route = createFileRoute("/docs")({
   head: () => ({
@@ -15,6 +25,10 @@ export const Route = createFileRoute("/docs")({
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://blobs.gay/docs" }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(FAQ_JSON_LD) },
     ],
   }),
   component: DocsPage,

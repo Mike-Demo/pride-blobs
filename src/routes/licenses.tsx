@@ -88,6 +88,7 @@ export const Route = createFileRoute("/licenses")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://blobs.gay/licenses" }],
   }),
   component: LicensesPage,
 });
