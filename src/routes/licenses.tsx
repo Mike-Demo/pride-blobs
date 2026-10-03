@@ -86,9 +86,15 @@ export const Route = createFileRoute("/licenses")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://blobs.gay/licenses" },
+      { property: "og:image", content: "https://blobs.gay/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://blobs.gay/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://blobs.gay/licenses" }],
+    links: [
+      { rel: "canonical", href: "https://blobs.gay/licenses" },
+      { rel: "alternate", type: "text/markdown", href: "https://blobs.gay/licenses.md" },
+    ],
   }),
   component: LicensesPage,
 });
@@ -238,6 +244,17 @@ function LicensesPage() {
               MikeDemo on GitHub
             </a>
           </p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+            <Link to="/about" className="transition-colors hover:text-foreground">
+              About
+            </Link>
+            <Link to="/contact" className="transition-colors hover:text-foreground">
+              Contact
+            </Link>
+            <Link to="/privacy" className="transition-colors hover:text-foreground">
+              Privacy
+            </Link>
+          </nav>
         </div>
       </footer>
     </div>

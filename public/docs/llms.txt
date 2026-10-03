@@ -1,0 +1,31 @@
+# Pridatar docs — scoped agent context
+
+> Scoped reference for the documentation area of https://blobs.gay.
+> Parent index: https://blobs.gay/llms.txt
+
+## Usage
+
+- Generator source: `src/lib/pridatar/` in https://github.com/Mike-Demo/pride-blobs
+- Vanilla: `import { pridatar, pridatarDataUri } from "@/lib/pridatar";`
+- React: `<Pridatar name={user.email} size={48} />`
+- Shareable URLs: `?seed=demo&flag=rainbow` (params: seed, flag, stripes,
+  shape, expression, motion, solid, backdrop, size)
+
+## Flag reference
+
+15 flags: `rainbow`, `progress`, `trans`, `bisexual`, `pansexual`,
+`nonbinary`, `lesbian`, `asexual`, `genderqueer`, `genderfluid`, `agender`,
+`aromantic`, `intersex`, `demisexual`, `polysexual`. Full stripe tables with
+cited notes: https://blobs.gay/docs
+
+## Licensing
+
+MIT. Upstream: https://github.com/Alain00/blobatar (MIT). Credits:
+https://blobs.gay/licenses
+
+## Machine-readable files
+
+- [llms.md](https://blobs.gay/llms.md) — agent guide
+- [auth.md](https://blobs.gay/auth.md) — authentication (none)
+- [pricing.md](https://blobs.gay/pricing.md) — pricing (free)
+- [ARD catalog](https://blobs.gay/.well-known/ard.json)

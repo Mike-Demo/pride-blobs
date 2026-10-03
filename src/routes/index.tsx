@@ -28,6 +28,57 @@ const JSON_LD_ORG = {
   name: "Pridatar",
   url: "https://blobs.gay/",
   logo: "https://blobs.gay/favicon.png",
+  sameAs: [
+    "https://github.com/Mike-Demo",
+    "https://x.com/Mike_Demo",
+    "https://bsky.app/profile/mikedemo.bsky.social",
+    "https://www.instagram.com/mdemop",
+    "https://www.threads.com/@mdemop",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hey.demo@mikedemo.email",
+    contactType: "customer support",
+  },
+};
+
+const JSON_LD_FAQ = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Is Pridatar free to use?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Pridatar is MIT-licensed open source software. Generate as many avatars as you like, right in your browser — no account, no fees.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do I need an account or upload anything?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. Type a name and the avatar is generated locally as SVG. Nothing leaves your browser: there is no server, no tracking, and no uploads.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Will the same name always make the same avatar?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Every visual choice — the flag, the stripes, the silhouette, the face — is derived deterministically from the name, so the same string renders the same avatar on every device, every time.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What pride flags are available?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "15 flags: rainbow, progress, trans, bisexual, pansexual, nonbinary, lesbian, asexual, genderqueer, genderfluid, agender, aromantic, intersex, demisexual, and polysexual, each with an accessible, contrast-checked palette.",
+      },
+    },
+  ],
 };
 
 const JSON_LD = {
@@ -56,16 +107,22 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://blobs.gay/" },
+      { property: "og:image", content: "https://blobs.gay/og-image.png" },
       { property: "og:site_name", content: "Pridatar" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://blobs.gay/og-image.png" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
     ],
-    links: [{ rel: "canonical", href: "https://blobs.gay/" }],
+    links: [
+      { rel: "canonical", href: "https://blobs.gay/" },
+      { rel: "alternate", type: "text/markdown", href: "https://blobs.gay/index.md" },
+    ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(JSON_LD) },
       { type: "application/ld+json", children: JSON.stringify(JSON_LD_WEBSITE) },
       { type: "application/ld+json", children: JSON.stringify(JSON_LD_ORG) },
+      { type: "application/ld+json", children: JSON.stringify(JSON_LD_FAQ) },
     ],
   }),
   validateSearch: (raw: Record<string, unknown>) => parsePridatarSearch(raw),
@@ -242,6 +299,17 @@ function Index() {
               MikeDemo on GitHub
             </a>
           </p>
+          <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+            <Link to="/about" className="transition-colors hover:text-foreground">
+              About
+            </Link>
+            <Link to="/contact" className="transition-colors hover:text-foreground">
+              Contact
+            </Link>
+            <Link to="/privacy" className="transition-colors hover:text-foreground">
+              Privacy
+            </Link>
+          </nav>
         </div>
       </footer>
     </div>

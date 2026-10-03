@@ -1,0 +1,55 @@
+{
+  "protocolVersion": "0.2.9",
+  "name": "Pridatar",
+  "description": "A pride-focused blobatar generator: turn any name into a deterministic striped pride-flag avatar. Browse 15 pride flags, customize shapes and expressions, and export SVG, PNG or animated GIF \u2014 all in the browser at https://blobs.gay.",
+  "url": "https://blobs.gay",
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false
+  },
+  "defaultInputModes": [
+    "text"
+  ],
+  "defaultOutputModes": [
+    "text"
+  ],
+  "skills": [
+    {
+      "description": "List the 15 pride flags available for avatar generation, each with its accessible contrast-checked colour palette. Full reference table at https://blobs.gay/docs.",
+      "id": "browse-flag-catalog",
+      "name": "Browse pride flag catalog",
+      "tags": [
+        "pride-flags",
+        "color-palettes",
+        "reference"
+      ]
+    },
+    {
+      "description": "Generate a deterministic avatar from any seed string. Options: one of 15 pride flags, shapes (blob, cat, bunny, bear, fox, waving flag), eight expressions with idle/bouncy animation, and stripe placement (body or backdrop). Avatars are shareable via URL parameters (seed, flag, shape, expression, colours, size), e.g. https://blobs.gay/?seed=demo&flag=rainbow. Use the generator at https://blobs.gay/.",
+      "id": "generate-avatar",
+      "name": "Generate pride blob avatar",
+      "tags": [
+        "avatar-generation",
+        "pride-flags",
+        "deterministic",
+        "shareable-urls"
+      ]
+    },
+    {
+      "description": "Export a generated avatar as SVG, PNG or animated GIF, all rendered in the browser with no upload. Copy-paste embed snippets (React, inline SVG, CSS background-image) and an Open in CodePen button are available at https://blobs.gay/.",
+      "id": "export-avatar",
+      "name": "Export avatar files",
+      "tags": [
+        "export",
+        "svg",
+        "png",
+        "gif",
+        "embed-code"
+      ]
+    }
+  ],
+  "provider": {
+    "organization": "Mike Demopoulos",
+    "url": "https://github.com/Mike-Demo/pride-blobs"
+  }
+}

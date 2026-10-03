@@ -2,13 +2,29 @@
 
 > Turn any name into a striped pride-flag blob avatar, the same way every time. 15 flags, browser-generated SVG/PNG/animated GIF, no accounts, no uploads.
 
+## When to use Pridatar
+
+Reach for Pridatar when an agent or user needs:
+
+- A **pride-themed avatar** for a name, handle, email, or project.
+- A **deterministic placeholder avatar** — the same seed always yields the same image, a stable visual identifier.
+- **Shareable avatar links** or **embed code** (React, inline SVG, CSS background-image, CodePen).
+
+Pridatar is NOT for: photo-realistic avatars, server-side rendering pipelines
+(everything runs in the visitor's browser), or anything needing accounts.
+
+**How an agent calls it:** there is no API. Construct a shareable URL and hand
+it to the user, e.g. `https://blobs.gay/?seed=demo&flag=rainbow`. Full skill:
+[generate-avatar](https://blobs.gay/skills/generate-avatar/SKILL.md).
+
 ## What this is
 
-Pridatar (live at https://blobs.gay) is a pride-focused fork of blobatar
-(MIT License) that generates deterministic, name-seeded avatars dressed in
-pride flags. Every string — a handle, an email, a repo name — produces the
-same avatar on every render. Everything runs entirely in the browser; there
-is no server runtime, no database and no login.
+Pridatar (live at [https://blobs.gay](https://blobs.gay)) is a pride-focused
+fork of [blobatar](https://github.com/Alain00/blobatar) (MIT License) that
+generates deterministic, name-seeded avatars dressed in pride flags. Every
+string — a handle, an email, a repo name — produces the same avatar on every
+render. Everything runs entirely in the browser; there is no server runtime,
+no database and no login.
 
 ## How generation works
 
@@ -16,7 +32,7 @@ is no server runtime, no database and no login.
   avatar deterministically — the same seed always yields the same blob.
 - **15 pride flags** mapped to accessible, contrast-checked colour palettes
   (including rainbow, trans, lesbian, gay, bisexual, pansexual, asexual,
-  nonbinary and more — see https://blobs.gay/docs for the full table).
+  nonbinary and more — see [the docs](https://blobs.gay/docs) for the full table).
 - **Shapes**: classic blob plus cat, bunny, bear, fox and a waving-flag
   silhouette.
 - **Expressions**: eight faces, each with matching idle/bouncy animation.
@@ -31,18 +47,30 @@ is no server runtime, no database and no login.
 
 ## Pages
 
-- Home and generator playground: https://blobs.gay/
-- Documentation (usage, flag reference table, licensing): https://blobs.gay/docs
-- Licenses and upstream attribution: https://blobs.gay/licenses
+- Home and generator playground: [https://blobs.gay/](https://blobs.gay/)
+- Documentation (usage, flag reference table, licensing): [https://blobs.gay/docs](https://blobs.gay/docs)
+- Licenses and upstream attribution: [https://blobs.gay/licenses](https://blobs.gay/licenses)
+- About the project: [https://blobs.gay/about](https://blobs.gay/about)
+- Contact: [https://blobs.gay/contact](https://blobs.gay/contact)
+- Privacy: [https://blobs.gay/privacy](https://blobs.gay/privacy)
 
 ## Machine-readable files
 
-- `https://blobs.gay/sitemap.xml` — XML sitemap of all pages
-- `https://blobs.gay/robots.txt` — crawler policy (bots allowed)
-- `https://blobs.gay/.well-known/agent.json` — A2A-style agent card describing this site's capabilities
-- `https://blobs.gay/llms.txt` — this file
+- [https://blobs.gay/sitemap.xml](https://blobs.gay/sitemap.xml) — XML sitemap of all pages
+- [https://blobs.gay/robots.txt](https://blobs.gay/robots.txt) — crawler policy (bots allowed)
+- [https://blobs.gay/schema-map.xml](https://blobs.gay/schema-map.xml) — schema map of structured data feeds
+- [https://blobs.gay/.well-known/agent.json](https://blobs.gay/.well-known/agent.json) — A2A-style agent card describing this site's capabilities
+- [https://blobs.gay/.well-known/agent-card.json](https://blobs.gay/.well-known/agent-card.json) — A2A agent card (canonical path)
+- [https://blobs.gay/.well-known/ard.json](https://blobs.gay/.well-known/ard.json) — Agentic Resource Discovery catalog (v1.0)
+- [https://blobs.gay/.well-known/agent-skills/index.json](https://blobs.gay/.well-known/agent-skills/index.json) — agent skills index (v0.2.0)
+- [https://blobs.gay/plugin.json](https://blobs.gay/plugin.json) — agent plugin manifest
+- [https://blobs.gay/auth.md](https://blobs.gay/auth.md) — authentication: none required
+- [https://blobs.gay/pricing.md](https://blobs.gay/pricing.md) — pricing: free, no tiers
+- [https://blobs.gay/llms.txt](https://blobs.gay/llms.txt) — this file
+- [https://blobs.gay/llms.md](https://blobs.gay/llms.md) — agent guide (markdown)
+- [https://blobs.gay/docs/llms.txt](https://blobs.gay/docs/llms.txt) — scoped docs context
 
 ## Source
 
-- Repository: https://github.com/Mike-Demo/pride-blobs (MIT License)
-- Upstream blobatar project: https://github.com/Alain00/blobatar
+- Repository: [https://github.com/Mike-Demo/pride-blobs](https://github.com/Mike-Demo/pride-blobs) (MIT License)
+- Upstream blobatar project: [https://github.com/Alain00/blobatar](https://github.com/Alain00/blobatar)

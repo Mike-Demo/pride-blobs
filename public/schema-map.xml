@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemamap xmlns="https://nlweb.ai/schema-map/">
+  <feed>
+    <url>https://blobs.gay/</url>
+    <type>WebApplication</type>
+    <type>WebSite</type>
+    <type>Organization</type>
+    <type>FAQPage</type>
+  </feed>
+  <feed>
+    <url>https://blobs.gay/docs</url>
+    <type>FAQPage</type>
+  </feed>
+  <feed>
+    <url>https://blobs.gay/about</url>
+    <type>AboutPage</type>
+  </feed>
+  <feed>
+    <url>https://blobs.gay/contact</url>
+    <type>ContactPage</type>
+  </feed>
+</schemamap>

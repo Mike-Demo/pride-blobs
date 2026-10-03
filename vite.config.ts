@@ -13,7 +13,7 @@ export default defineConfig({
     server: { entry: "server" },
     // Every page is fully client-rendered and reads no per-request state, so the
     // whole site is prerendered to static HTML for static hosting (Spacefast).
-    pages: [{ path: "/" }, { path: "/docs" }],
+    pages: [{ path: "/" }, { path: "/docs" }, { path: "/about" }, { path: "/contact" }, { path: "/privacy" }],
     prerender: { enabled: true, autoStaticPathsDiscovery: false },
   },
 });
