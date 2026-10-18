@@ -1,0 +1,197 @@
+{
+  "boltSlidesVersion": 1,
+  "boltSlidesId": "11011050-f9d6-4d43-8a9e-3e43af51bbaf",
+  "deck": {
+    "title": "Pride Blobs — squishy, bouncy, unapologetically rainbow",
+    "transition": "fade",
+    "font": "manrope",
+    "accent": "#FF5CA8"
+  },
+  "slides": [
+    {
+      "id": "s1",
+      "position": 0,
+      "layout": "cover",
+      "props": {
+        "kicker": "A tiny web toy · github.com/Mike-Demo/pride-blobs",
+        "title": "Pride Blobs — ==squishy, bouncy,== unapologetically ==rainbow==.",
+        "subtitle": "A pocketful of cheerful blob characters in Pride colors that bounce, squish, and react when you play with them.",
+        "foot": "Live and playable · Open source"
+      },
+      "background": { "type": "gradient", "from": "#230a17", "to": "#06080d", "angle": 160 },
+      "animation": "cascade",
+      "transition": "zoom",
+      "nav": null,
+      "notes": "Open with the toy itself if you can — have it on screen and poke a blob. This deck is short and joyful; match the tone.",
+      "status": "none"
+    },
+    {
+      "id": "s2",
+      "position": 1,
+      "layout": "manifesto",
+      "props": {
+        "label": "The idea",
+        "text": "Not every project needs a business case. Some exist to ==spread a little delight== — a pocketful of blobs that bounce, squish, and smile back."
+      },
+      "background": { "type": "color", "color": "var(--bg)" },
+      "animation": "fade",
+      "transition": null,
+      "nav": null,
+      "notes": "Land the thesis quietly: joy is a valid reason to build something. Pause here.",
+      "status": "none"
+    },
+    {
+      "id": "s3",
+      "position": 2,
+      "layout": "bento",
+      "props": {
+        "kicker": "What it does",
+        "title": "Poke. Jiggle. ==Celebrate==.",
+        "tiles": [
+          {
+            "k": "01",
+            "title": "Poke a blob",
+            "body": "It squishes under your cursor and springs back with a satisfying jiggle."
+          },
+          {
+            "k": "02",
+            "title": "It celebrates",
+            "body": "Blobs bounce and react when you play — every touch gets a response."
+          },
+          {
+            "k": "03",
+            "title": "Every blob is its own",
+            "body": "Each character carries its own colors and personality. No two squish alike."
+          }
+        ]
+      },
+      "background": { "type": "color", "color": "var(--bg)" },
+      "animation": "cascade",
+      "transition": null,
+      "nav": null,
+      "notes": "Demo beats description: poke one live. The personality point is the hook — people pick a favorite blob.",
+      "status": "none"
+    },
+    {
+      "id": "s4",
+      "position": 3,
+      "layout": "statement",
+      "props": {
+        "kicker": "Why Pride",
+        "title": "Visibility can be ==playful==.",
+        "body": "The blobs carry the rainbow — and Pride flag colorways — into a toy anyone can enjoy in ten seconds. No lecture attached."
+      },
+      "background": { "type": "color", "color": "var(--bg)" },
+      "animation": "fade",
+      "transition": null,
+      "nav": null,
+      "notes": "This is the heart of the project: pride expressed as play, not a presentation. Let the line breathe.",
+      "status": "none"
+    },
+    {
+      "id": "s5",
+      "position": 4,
+      "layout": "steps",
+      "props": {
+        "kicker": "How it works",
+        "title": "Light on purpose.",
+        "items": [
+          {
+            "title": "Lightweight web tech",
+            "body": "A small site built with plain, modern web standards."
+          },
+          {
+            "title": "Springy, physics-feel motion",
+            "body": "Squish and bounce are tuned by hand so every poke feels alive."
+          },
+          {
+            "title": "Any modern browser",
+            "body": "Nothing to install, no account, no setup. Open the page and play."
+          }
+        ]
+      },
+      "background": { "type": "color", "color": "var(--bg)" },
+      "animation": "cascade",
+      "transition": null,
+      "nav": null,
+      "notes": "Emphasize the frictionless part: ten seconds from opening the tab to your first squish.",
+      "status": "none"
+    },
+    {
+      "id": "s6",
+      "position": 5,
+      "layout": "bento",
+      "props": {
+        "kicker": "Key features",
+        "title": "Small toy, ==big heart==.",
+        "tiles": [
+          {
+            "k": "Rainbow +",
+            "title": "Pride flag colorways",
+            "body": "Beyond the rainbow — the blobs wear a whole family of flag palettes."
+          },
+          {
+            "k": "Squish",
+            "title": "Springy physics feel",
+            "body": "Every poke, jiggle, and bounce is tuned to feel satisfying."
+          },
+          {
+            "k": "Hi",
+            "title": "Personalities",
+            "body": "Each blob has its own character, colors, and way of reacting."
+          },
+          {
+            "k": "0",
+            "title": "Nothing to install",
+            "body": "Runs in any modern browser, instantly."
+          },
+          {
+            "k": "OSS",
+            "title": "Free and open source",
+            "body": "Browse the code, fork it, or remix your own blobs."
+          }
+        ]
+      },
+      "background": { "type": "color", "color": "var(--bg)" },
+      "animation": "cascade",
+      "transition": null,
+      "nav": null,
+      "notes": "Skim this one out loud — the tiles are self-explanatory. The open-source tile sets up the closing ask.",
+      "status": "none"
+    },
+    {
+      "id": "s7",
+      "position": 6,
+      "layout": "bigNumber",
+      "props": {
+        "kicker": "Status",
+        "value": "10s",
+        "caption": "from opening the page to your first squish — live, playable, and open source today",
+        "foot": "github.com/Mike-Demo/pride-blobs"
+      },
+      "background": { "type": "color", "color": "var(--bg)" },
+      "animation": "cascade",
+      "transition": null,
+      "nav": null,
+      "notes": "It's not a pitch — it's shipped. Invite them to open the repo or the toy right now.",
+      "status": "none"
+    },
+    {
+      "id": "s8",
+      "position": 7,
+      "layout": "cover",
+      "props": {
+        "kicker": "Play with them",
+        "title": "Come squish ==a blob==.",
+        "subtitle": "Pride Blobs is live and open source — poke it, star it, or build your own.",
+        "foot": "github.com/Mike-Demo/pride-blobs"
+      },
+      "background": { "type": "gradient", "from": "#230a17", "to": "#06080d", "angle": 160 },
+      "animation": "cascade",
+      "transition": "zoom",
+      "nav": null,
+      "notes": "Close warm: thank them, share the link, and leave the toy on screen while questions land.",
+      "status": "none"
+    }
+  ]
+}
