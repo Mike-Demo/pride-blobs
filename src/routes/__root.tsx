@@ -161,6 +161,9 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <footer style={{ textAlign: "center", padding: "1rem" }}>
+          <a href="https://brandmylaptop.com/demo?ref=demo"><img src="https://brandmylaptop.com/api/badge/demo?theme=dark" alt="Your logo on my laptop" height="60" /></a>
+        </footer>
         <Scripts />
         <script defer src="/co2.min.js" />
         <script defer src="/co2-footer.js" />
