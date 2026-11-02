@@ -139,7 +139,7 @@ const CSP = [
   "script-src 'self' 'unsafe-inline' https://umami-lite.view.fast",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data: https://app.aikido.dev",
+  "img-src 'self' data: https://app.aikido.dev https://brandmylaptop.com",
   "connect-src 'self' https://umami-lite.view.fast",
   "object-src 'none'",
   "base-uri 'self'",
